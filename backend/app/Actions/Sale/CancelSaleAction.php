@@ -3,10 +3,10 @@
 namespace App\Actions\Sale;
 
 use App\Actions\Product\UpdateProductStockAction;
-use App\Enums\Sale\SaleStatus;
-use App\Exceptions\Sale\SaleAlreadyCancelledException;
-use App\Models\Product\Product;
+use App\Enums\SaleStatusEnum;
+use App\Exceptions\SaleAlreadyCancelledException;
 use App\Models\Sale\Sale;
+use App\Models\Sale\SaleItem;
 use Illuminate\Support\Facades\DB;
 
 class CancelSaleAction
@@ -17,16 +17,18 @@ class CancelSaleAction
 
     public function execute(Sale $sale): Sale
     {
-        if ($sale->status === SaleStatus::Cancelled) {
+        if ($sale->status === SaleStatusEnum::Cancelled) {
             throw new SaleAlreadyCancelledException();
         }
 
-        return DB::transaction(function () use ($sale) {
-            $sale->update(['status' => SaleStatus::Cancelled]);
+        $sale->load('items.product');
 
+        return DB::transaction(function () use ($sale) {
+            $sale->update(['status' => SaleStatusEnum::Cancelled]);
+
+            /** @var SaleItem $item */
             foreach ($sale->items as $item) {
-                $product = Product::findOrFail($item->product_id);
-                $this->updateProductStockAction->execute($product, $item->quantity);
+                $this->updateProductStockAction->execute($item->product, $item->quantity);
             }
 
             return $sale->refresh();

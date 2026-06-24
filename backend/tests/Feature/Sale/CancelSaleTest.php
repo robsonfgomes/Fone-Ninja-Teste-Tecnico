@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Sale;
 
-use App\Enums\Sale\SaleStatus;
+use App\Enums\SaleStatusEnum;
 use App\Models\Product\Product;
 use App\Models\Sale\Sale;
 use App\Models\Sale\SaleItem;
@@ -22,7 +22,7 @@ class CancelSaleTest extends TestCase
             'average_cost'  => '50.00',
         ]);
 
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Active]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Active]);
         SaleItem::create([
             'sale_id'    => $sale->id,
             'product_id' => $product->id,
@@ -38,30 +38,30 @@ class CancelSaleTest extends TestCase
         [$sale] = $this->createActiveSaleWithProduct();
 
         $response = $this->patchJson("/api/vendas/{$sale->id}", [
-            'status' => 'cancelled',
+            'status' => 'Cancelled',
         ]);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
                 'data' => ['saleId', 'status', 'createdAt', 'updatedAt'],
             ])
-            ->assertJsonPath('data.status', 'cancelled');
+            ->assertJsonPath('data.status', 'Cancelled');
     }
 
     public function test_restores_stock_on_cancellation(): void
     {
         [$sale, $product] = $this->createActiveSaleWithProduct(stock: 7, quantity: 3);
 
-        $this->patchJson("/api/vendas/{$sale->id}", ['status' => 'cancelled']);
+        $this->patchJson("/api/vendas/{$sale->id}", ['status' => 'Cancelled']);
 
         $this->assertEquals(10, $product->fresh()->current_stock);
     }
 
     public function test_returns_422_when_sale_already_cancelled(): void
     {
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Cancelled]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Cancelled]);
 
-        $response = $this->patchJson("/api/vendas/{$sale->id}", ['status' => 'cancelled']);
+        $response = $this->patchJson("/api/vendas/{$sale->id}", ['status' => 'Cancelled']);
 
         $response->assertStatus(422)
             ->assertJsonPath('message', 'Esta venda já foi cancelada.');
@@ -70,7 +70,7 @@ class CancelSaleTest extends TestCase
     public function test_returns_404_when_sale_not_found(): void
     {
         $response = $this->patchJson('/api/vendas/00000000-0000-0000-0000-000000000000', [
-            'status' => 'cancelled',
+            'status' => 'Cancelled',
         ]);
 
         $response->assertStatus(404);

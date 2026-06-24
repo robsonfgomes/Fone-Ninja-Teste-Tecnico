@@ -238,6 +238,6 @@ class CreateSaleTest extends TestCase
             ],
         ]);
 
-        $this->assertDatabaseHas('sales', ['status' => 'active']);
+        $this->assertDatabaseHas('sales', ['status' => 'Active']);
     }
 }

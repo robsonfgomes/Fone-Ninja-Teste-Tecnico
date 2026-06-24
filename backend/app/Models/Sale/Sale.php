@@ -2,7 +2,7 @@
 
 namespace App\Models\Sale;
 
-use App\Enums\Sale\SaleStatus;
+use App\Enums\SaleStatusEnum;
 use App\Models\Abstract\AbstractModel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @property string $id
  * @property string $customer_name
- * @property SaleStatus $status
+ * @property SaleStatusEnum $status
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */
@@ -25,7 +25,7 @@ class Sale extends AbstractModel
     protected function casts(): array
     {
         return [
-            'status' => SaleStatus::class,
+            'status' => SaleStatusEnum::class,
         ];
     }
 }

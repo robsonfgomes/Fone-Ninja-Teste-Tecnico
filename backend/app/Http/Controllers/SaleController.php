@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Sale\CancelSaleAction;
 use App\Actions\Sale\CreateSaleAction;
+use App\Enums\SaleStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\CreateSaleRequest;
 use App\Http\Requests\Sale\UpdateSaleRequest;
@@ -29,7 +30,11 @@ class SaleController extends Controller
 
     public function update(UpdateSaleRequest $request, Sale $venda): JsonResponse
     {
-        $result = $this->cancelSaleAction->execute($venda);
+        $status = SaleStatusEnum::from($request->validated('status'));
+
+        $result = match ($status) {
+            SaleStatusEnum::Cancelled => $this->cancelSaleAction->execute($venda),
+        };
 
         return CancelledSaleResource::make($result)->response()->setStatusCode(Response::HTTP_OK);
     }

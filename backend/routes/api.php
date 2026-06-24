@@ -17,11 +17,14 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('produtos', ProductController::class)
-    ->only(['index', 'store']);
+Route::prefix('produtos')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);
+    Route::post('/', [ProductController::class, 'store']);
+});
 
-Route::apiResource('compras', PurchaseOrderController::class)
-    ->only(['store']);
+Route::post('compras', [PurchaseOrderController::class, 'store']);
 
-Route::apiResource('vendas', SaleController::class)
-    ->only(['store', 'update']);
+Route::prefix('vendas')->group(function () {
+    Route::post('/', [SaleController::class, 'store']);
+    Route::patch('/{venda}', [SaleController::class, 'update']);
+});

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Actions\Sale;
 
 use App\Actions\Sale\CancelSaleAction;
-use App\Enums\Sale\SaleStatus;
-use App\Exceptions\Sale\SaleAlreadyCancelledException;
+use App\Enums\SaleStatusEnum;
+use App\Exceptions\SaleAlreadyCancelledException;
 use App\Models\Product\Product;
 use App\Models\Sale\Sale;
 use App\Models\Sale\SaleItem;
@@ -32,7 +32,7 @@ class CancelSaleActionTest extends TestCase
             'average_cost'  => '50.00',
         ]);
 
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Active]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Active]);
         SaleItem::create([
             'sale_id'    => $sale->id,
             'product_id' => $product->id,
@@ -42,8 +42,8 @@ class CancelSaleActionTest extends TestCase
 
         $result = $this->action->execute($sale);
 
-        $this->assertEquals(SaleStatus::Cancelled, $result->status);
-        $this->assertDatabaseHas('sales', ['id' => $sale->id, 'status' => 'cancelled']);
+        $this->assertEquals(SaleStatusEnum::Cancelled, $result->status);
+        $this->assertDatabaseHas('sales', ['id' => $sale->id, 'status' => 'Cancelled']);
     }
 
     public function test_restores_product_stock_on_cancellation(): void
@@ -55,7 +55,7 @@ class CancelSaleActionTest extends TestCase
             'average_cost'  => '50.00',
         ]);
 
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Active]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Active]);
         SaleItem::create([
             'sale_id'    => $sale->id,
             'product_id' => $product->id,
@@ -83,7 +83,7 @@ class CancelSaleActionTest extends TestCase
             'average_cost'  => '30.00',
         ]);
 
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Active]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Active]);
         SaleItem::create(['sale_id' => $sale->id, 'product_id' => $product1->id, 'quantity' => 2, 'unit_price' => '80.00']);
         SaleItem::create(['sale_id' => $sale->id, 'product_id' => $product2->id, 'quantity' => 4, 'unit_price' => '60.00']);
 
@@ -95,7 +95,7 @@ class CancelSaleActionTest extends TestCase
 
     public function test_throws_exception_when_sale_already_cancelled(): void
     {
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Cancelled]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Cancelled]);
 
         $this->expectException(SaleAlreadyCancelledException::class);
 
@@ -108,9 +108,10 @@ class CancelSaleActionTest extends TestCase
             'name'          => 'Fone X',
             'selling_price' => '200.00',
             'current_stock' => 5,
+            'average_cost'  => '50.00',
         ]);
 
-        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatus::Cancelled]);
+        $sale = Sale::create(['customer_name' => 'Fulano', 'status' => SaleStatusEnum::Cancelled]);
         SaleItem::create([
             'sale_id'    => $sale->id,
             'product_id' => $product->id,
