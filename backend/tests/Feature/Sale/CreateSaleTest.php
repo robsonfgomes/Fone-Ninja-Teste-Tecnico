@@ -221,4 +221,23 @@ class CreateSaleTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['products.0.id', 'products.1.id']);
     }
+
+    public function test_sale_is_created_with_active_status(): void
+    {
+        $product = Product::create([
+            'name'          => 'Fone X',
+            'selling_price' => '200.00',
+            'current_stock' => 10,
+            'average_cost'  => '50.00',
+        ]);
+
+        $this->postJson('/api/vendas', [
+            'customer' => 'Fulano da Silva',
+            'products' => [
+                ['id' => $product->id, 'quantity' => 1, 'unit_price' => 80.00],
+            ],
+        ]);
+
+        $this->assertDatabaseHas('sales', ['status' => 'active']);
+    }
 }
