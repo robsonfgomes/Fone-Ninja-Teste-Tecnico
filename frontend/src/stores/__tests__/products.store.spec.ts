@@ -46,12 +46,12 @@ describe('useProductsStore', () => {
   it('passes page 1 by default', async () => {
     const store = useProductsStore();
     await store.fetchProducts();
-    expect(productsService.list).toHaveBeenCalledWith(1);
+    expect(productsService.list).toHaveBeenCalledWith(1, expect.any(AbortSignal));
   });
 
   it('passes the given page number to the service', async () => {
     const store = useProductsStore();
     await store.fetchProducts(3);
-    expect(productsService.list).toHaveBeenCalledWith(3);
+    expect(productsService.list).toHaveBeenCalledWith(3, expect.any(AbortSignal));
   });
 });
