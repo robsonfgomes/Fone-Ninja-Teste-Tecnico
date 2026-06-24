@@ -129,4 +129,24 @@ class CreatePurchaseOrderTest extends TestCase
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['products']);
     }
+
+    public function test_returns_422_when_duplicate_product_ids_in_same_order(): void
+    {
+        $product = Product::create([
+            'name'          => 'Fone X',
+            'selling_price' => '200.00',
+            'current_stock' => 0,
+        ]);
+
+        $response = $this->postJson('/api/compras', [
+            'supplier' => 'Fornecedor X',
+            'products' => [
+                ['id' => $product->id, 'quantity' => 10, 'unit_price' => 20.00],
+                ['id' => $product->id, 'quantity' => 5,  'unit_price' => 25.00],
+            ],
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['products.0.id', 'products.1.id']);
+    }
 }

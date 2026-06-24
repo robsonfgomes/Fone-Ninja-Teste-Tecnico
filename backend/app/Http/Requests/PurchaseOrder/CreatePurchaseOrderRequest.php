@@ -13,7 +13,7 @@ class CreatePurchaseOrderRequest extends AbstractRequest
         return [
             'supplier'              => ['required', 'string', 'min:3'],
             'products'              => ['required', 'array', 'min:1'],
-            'products.*.id'         => ['required', 'uuid', 'exists:products,id'],
+            'products.*.id'         => ['required', 'uuid', 'exists:products,id', 'distinct'],
             'products.*.quantity'   => ['required', 'integer', 'min:1'],
             'products.*.unit_price' => ['required', 'numeric', 'gt:0'],
         ];

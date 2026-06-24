@@ -14,13 +14,18 @@ class PurchaseOrderResource extends JsonResource
 
     public function toArray(Request $request): array
     {
-        $totalAmount = $this->items->sum(
-            fn ($item) => $item->quantity * (float) $item->unit_price
+        $totalAmount = $this->items->reduce(
+            fn (string $carry, $item) => bcadd(
+                $carry,
+                bcmul((string) $item->quantity, $item->unit_price, 4),
+                4
+            ),
+            '0'
         );
 
         return [
             'purchaseOrderId' => $this->id,
-            'totalAmount'     => (float) round($totalAmount, 2),
+            'totalAmount'     => (float) bcdiv($totalAmount, '1', 2),
             'createdAt'       => $this->getCreatedAt(),
             'updatedAt'       => $this->getUpdatedAt(),
         ];

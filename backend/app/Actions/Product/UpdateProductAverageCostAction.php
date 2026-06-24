@@ -8,10 +8,18 @@ class UpdateProductAverageCostAction
 {
     public function execute(Product $product, int $quantity, string $unitPrice): void
     {
-        $newAverageCost = (
-            ($product->current_stock * (float) ($product->average_cost ?? 0))
-            + ($quantity * (float) $unitPrice)
-        ) / ($product->current_stock + $quantity);
+        $currentStock = (string) $product->current_stock;
+        $currentAvgCost = $product->average_cost ?? '0';
+
+        $numerator = bcadd(
+            bcmul($currentStock, $currentAvgCost, 4),
+            bcmul((string) $quantity, $unitPrice, 4),
+            4
+        );
+
+        $denominator = (string) ($product->current_stock + $quantity);
+
+        $newAverageCost = bcdiv($numerator, $denominator, 4);
 
         $product->update(['average_cost' => $newAverageCost]);
     }
