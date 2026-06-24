@@ -3,7 +3,9 @@
 namespace App\Models\PurchaseOrder;
 
 use App\Models\Abstract\AbstractModel;
+use App\Models\Product\Product;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * @property string $id
@@ -17,6 +19,11 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 #[Fillable(['purchase_order_id', 'product_id', 'quantity', 'unit_price'])]
 class PurchaseOrderItem extends AbstractModel
 {
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(Product::class);
+    }
+
     protected function casts(): array
     {
         return [
