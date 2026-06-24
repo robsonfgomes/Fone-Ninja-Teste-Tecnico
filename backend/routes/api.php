@@ -24,4 +24,4 @@ Route::apiResource('compras', PurchaseOrderController::class)
     ->only(['store']);
 
 Route::apiResource('vendas', SaleController::class)
-    ->only(['store']);
+    ->only(['store', 'update']);

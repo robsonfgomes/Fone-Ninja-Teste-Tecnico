@@ -29,7 +29,7 @@ class CancelSaleAction
                 $this->updateProductStockAction->execute($product, $item->quantity);
             }
 
-            return $sale;
+            return $sale->refresh();
         });
     }
 }
