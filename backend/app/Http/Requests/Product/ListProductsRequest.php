@@ -7,14 +7,6 @@ use App\Http\Requests\AbstractRequest;
 
 class ListProductsRequest extends AbstractRequest
 {
-    protected function prepareForValidation(): void
-    {
-        $this->mergeIfMissing([
-            'page'     => 1,
-            'per_page' => 15,
-        ]);
-    }
-
     public function rules(): array
     {
         return [
@@ -26,8 +18,8 @@ class ListProductsRequest extends AbstractRequest
     public function toDto(): ListProductsDto
     {
         return new ListProductsDto(
-            page: $this->validated('page'),
-            perPage: $this->validated('per_page'),
+            page: $this->validated('page', 1),
+            perPage: $this->validated('per_page', 15),
         );
     }
 }

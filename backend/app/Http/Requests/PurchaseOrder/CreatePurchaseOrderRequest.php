@@ -22,10 +22,10 @@ class CreatePurchaseOrderRequest extends AbstractRequest
     public function toDto(): CreatePurchaseOrderDto
     {
         $items = array_map(
-            fn (array $item) => new PurchaseOrderItemDto(
+            fn(array $item) => new PurchaseOrderItemDto(
                 productId: $item['id'],
                 quantity: $item['quantity'],
-                unitPrice: (string) $item['unit_price'],
+                unitPrice: (float) $item['unit_price'],
             ),
             $this->validated('products'),
         );

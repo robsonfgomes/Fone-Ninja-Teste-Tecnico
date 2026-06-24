@@ -29,7 +29,7 @@ class CreatePurchaseOrderTest extends TestCase
             ->assertJsonStructure([
                 'data' => ['purchaseOrderId', 'totalAmount', 'createdAt', 'updatedAt'],
             ])
-            ->assertJsonPath('data.totalAmount', 1000.00);
+            ->assertJsonPath('data.totalAmount', 1000);
     }
 
     public function test_updates_stock_after_purchase(): void
@@ -85,7 +85,7 @@ class CreatePurchaseOrderTest extends TestCase
 
         // 50*20 + 30*10 = 1000 + 300 = 1300
         $response->assertStatus(201)
-            ->assertJsonPath('data.totalAmount', 1300.00);
+            ->assertJsonPath('data.totalAmount', 1300);
     }
 
     public function test_returns_422_when_supplier_is_missing(): void

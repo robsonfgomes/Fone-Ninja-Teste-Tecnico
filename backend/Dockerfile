@@ -4,7 +4,8 @@ RUN apt-get update \
     && apt-get -y --no-install-recommends install \
     unzip \
     zip \
-    && docker-php-ext-install pdo pdo_mysql \
+    libicu-dev \
+    && docker-php-ext-install pdo pdo_mysql intl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
