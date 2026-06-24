@@ -7,6 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PurchaseOrderResource extends JsonResource
 {
+    public function jsonOptions(): int
+    {
+        return JSON_PRESERVE_ZERO_FRACTION;
+    }
+
     public function toArray(Request $request): array
     {
         $totalAmount = $this->items->sum(
@@ -15,7 +20,7 @@ class PurchaseOrderResource extends JsonResource
 
         return [
             'purchaseOrderId' => $this->id,
-            'totalAmount'     => round($totalAmount, 2),
+            'totalAmount'     => (float) round($totalAmount, 2),
             'createdAt'       => $this->getCreatedAt(),
             'updatedAt'       => $this->getUpdatedAt(),
         ];

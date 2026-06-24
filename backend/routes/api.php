@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,6 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('produtos', ProductController::class)
     ->only(['index', 'store']);
+
+Route::apiResource('compras', PurchaseOrderController::class)
+    ->only(['store']);
