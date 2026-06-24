@@ -4,6 +4,7 @@ namespace App\Models\Sale;
 
 use App\Models\Abstract\AbstractModel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
@@ -12,4 +13,10 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
  * @property \Illuminate\Support\Carbon $updated_at
  */
 #[Fillable(['customer_name'])]
-class Sale extends AbstractModel {}
+class Sale extends AbstractModel
+{
+    public function items(): HasMany
+    {
+        return $this->hasMany(SaleItem::class);
+    }
+}

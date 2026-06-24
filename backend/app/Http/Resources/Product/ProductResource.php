@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Product;
 
+use App\Models\Product\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -9,6 +10,7 @@ class ProductResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        /** @var Product $this */
         return [
             'id'            => $this->id,
             'name'          => $this->name,

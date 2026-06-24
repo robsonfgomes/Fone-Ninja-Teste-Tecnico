@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseOrderController;
+use App\Http\Controllers\SaleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,7 @@ Route::apiResource('produtos', ProductController::class)
     ->only(['index', 'store']);
 
 Route::apiResource('compras', PurchaseOrderController::class)
+    ->only(['store']);
+
+Route::apiResource('vendas', SaleController::class)
     ->only(['store']);
