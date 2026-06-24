@@ -4,19 +4,21 @@ import AppPagination from '../AppPagination.vue';
 import type { PaginationMeta } from '@/types/pagination';
 
 function makeMeta(overrides: Partial<PaginationMeta> = {}): PaginationMeta {
+  const currentPage = overrides.current_page ?? 1;
+  const lastPage = overrides.last_page ?? 3;
   return {
-    current_page: 1,
-    last_page: 3,
+    current_page: currentPage,
+    last_page: lastPage,
     from: 1,
     to: 10,
     total: 30,
     per_page: 10,
     links: [
-      { url: null, label: '&laquo; Previous', page: null, active: false },
-      { url: '/api/produtos?page=1', label: '1', page: 1, active: true },
-      { url: '/api/produtos?page=2', label: '2', page: 2, active: false },
-      { url: '/api/produtos?page=3', label: '3', page: 3, active: false },
-      { url: '/api/produtos?page=2', label: 'Next &raquo;', page: 2, active: false },
+      { url: currentPage > 1 ? `/api/produtos?page=${currentPage - 1}` : null, label: '&laquo; Previous', page: currentPage > 1 ? currentPage - 1 : null, active: false },
+      { url: '/api/produtos?page=1', label: '1', page: 1, active: currentPage === 1 },
+      { url: '/api/produtos?page=2', label: '2', page: 2, active: currentPage === 2 },
+      { url: '/api/produtos?page=3', label: '3', page: 3, active: currentPage === 3 },
+      { url: currentPage < lastPage ? `/api/produtos?page=${currentPage + 1}` : null, label: 'Next &raquo;', page: currentPage < lastPage ? currentPage + 1 : null, active: false },
     ],
     ...overrides,
   };
@@ -34,9 +36,9 @@ describe('AppPagination', () => {
     const wrapper = mount(AppPagination, { props: { meta: makeMeta() } });
     const buttons = wrapper.findAll('.page-item:not(:first-child):not(:last-child) .page-link');
     expect(buttons).toHaveLength(3);
-    expect(buttons[0].text()).toBe('1');
-    expect(buttons[1].text()).toBe('2');
-    expect(buttons[2].text()).toBe('3');
+    expect(buttons[0]!.text()).toBe('1');
+    expect(buttons[1]!.text()).toBe('2');
+    expect(buttons[2]!.text()).toBe('3');
   });
 
   it('marks the active page with the active class', () => {
@@ -45,7 +47,7 @@ describe('AppPagination', () => {
     });
     const items = wrapper.findAll('.page-item');
     // items: [prev, 1, 2, 3, next] — index 2 is page 2
-    expect(items[2].classes()).toContain('active');
+    expect(items[2]!.classes()).toContain('active');
   });
 
   it('disables prev button on first page', () => {
@@ -67,7 +69,7 @@ describe('AppPagination', () => {
   it('emits page-change with the page number when clicking a page button', async () => {
     const wrapper = mount(AppPagination, { props: { meta: makeMeta() } });
     const pageButtons = wrapper.findAll('.page-item:not(:first-child):not(:last-child) .page-link');
-    await pageButtons[1].trigger('click'); // page 2
+    await pageButtons[1]!.trigger('click'); // page 2
     expect(wrapper.emitted('page-change')).toEqual([[2]]);
   });
 

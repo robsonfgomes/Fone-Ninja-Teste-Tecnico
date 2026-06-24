@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { PaginationMeta } from '@/types/pagination';
+import type { PaginationMeta, PaginationLink } from '@/types/pagination';
 
 const props = defineProps<{ meta: PaginationMeta }>();
 const emit = defineEmits<{ 'page-change': [page: number] }>();
 
 const pageLinks = computed(() =>
   props.meta.links.filter(
-    (link) => !link.label.includes('laquo') && !link.label.includes('raquo'),
+    (link): link is PaginationLink & { page: number } =>
+      !link.label.includes('laquo') &&
+      !link.label.includes('raquo') &&
+      link.page !== null,
   ),
 );
 
@@ -29,9 +32,9 @@ const nextPage = computed(() => props.meta.current_page + 1);
         v-for="link in pageLinks"
         :key="link.label"
         class="page-item"
-        :class="{ active: link.page === meta.current_page }"
+        :class="{ active: link.active }"
       >
-        <button class="page-link" @click="emit('page-change', link.page!)">
+        <button class="page-link" @click="emit('page-change', link.page)">
           {{ link.label }}
         </button>
       </li>
