@@ -18,10 +18,9 @@ defineProps<{
           <thead class="table-light">
             <tr>
               <th>Nome</th>
-              <th class="text-end">Preço de Venda</th>
+              <th class="text-end">Preço de Venda (Sugerido)</th>
               <th class="text-end">Custo Médio</th>
               <th class="text-center">Estoque</th>
-              <th class="text-center">Criado em</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +33,6 @@ defineProps<{
                   {{ product.currentStock }}
                 </span>
               </td>
-              <td class="text-center">{{ product.createdAt }}</td>
             </tr>
           </tbody>
         </table>

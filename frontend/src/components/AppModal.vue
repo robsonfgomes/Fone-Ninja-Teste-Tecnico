@@ -2,7 +2,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { Modal } from 'bootstrap';
 
-const props = defineProps<{
+defineProps<{
   title?: string;
   size?: 'sm' | 'lg' | 'xl' | '';
 }>();

@@ -16,5 +16,5 @@ export interface CreateProductPayload {
 
 export interface ProductFormData {
   name: string;
-  sellingPrice: number | null;
+  sellingPrice: string;
 }

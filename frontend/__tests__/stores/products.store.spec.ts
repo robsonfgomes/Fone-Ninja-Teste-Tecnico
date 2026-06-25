@@ -66,7 +66,7 @@ describe('createProduct', () => {
     vi.mocked(productsService.create).mockResolvedValue(mockProduct);
     const store = useProductsStore();
 
-    await store.createProduct({ name: 'iPhone', sellingPrice: 999 });
+    await store.createProduct({ name: 'iPhone', sellingPrice: '999' });
 
     expect(productsService.create).toHaveBeenCalledWith({
       name: 'iPhone',
@@ -84,7 +84,7 @@ describe('createProduct', () => {
     );
     const store = useProductsStore();
 
-    const promise = store.createProduct({ name: 'iPhone', sellingPrice: 999 });
+    const promise = store.createProduct({ name: 'iPhone', sellingPrice: '999' });
     expect(store.isCreating).toBe(true);
 
     resolveCreate(mockProduct);
@@ -96,7 +96,7 @@ describe('createProduct', () => {
     vi.mocked(productsService.create).mockRejectedValue(new Error('API error'));
     const store = useProductsStore();
 
-    await expect(store.createProduct({ name: 'iPhone', sellingPrice: 999 })).rejects.toThrow();
+    await expect(store.createProduct({ name: 'iPhone', sellingPrice: '999' })).rejects.toThrow();
     expect(store.isCreating).toBe(false);
   });
 });

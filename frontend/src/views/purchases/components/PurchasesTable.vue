@@ -19,14 +19,12 @@ defineProps<{
             <tr>
               <th>Fornecedor</th>
               <th class="text-end">Total</th>
-              <th class="text-center">Criado em</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="purchase in purchases" :key="purchase.id">
               <td>{{ purchase.supplierName }}</td>
               <td class="text-end">{{ formatCurrency(purchase.totalAmount) }}</td>
-              <td class="text-center">{{ purchase.createdAt }}</td>
             </tr>
           </tbody>
         </table>

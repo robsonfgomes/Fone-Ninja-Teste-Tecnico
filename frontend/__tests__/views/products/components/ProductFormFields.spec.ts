@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import ProductFormFields from '@/views/products/components/ProductFormFields.vue';
 import type { ProductFormData } from '@/types/product';
 
-const defaultModel: ProductFormData = { name: '', sellingPrice: null };
+const defaultModel: ProductFormData = { name: '', sellingPrice: '' };
 
 describe('ProductFormFields', () => {
   it('renders the name input', () => {
@@ -40,36 +40,30 @@ describe('ProductFormFields', () => {
     expect(input.attributes('step')).toBe('0.01');
   });
 
-  it('emits update:modelValue with updated name when name input changes', async () => {
-    const wrapper = mount(ProductFormFields, {
-      props: { modelValue: { name: '', sellingPrice: null } },
-    });
+  it('updates name in the model when name input changes', async () => {
+    const modelValue: ProductFormData = { name: '', sellingPrice: '' };
+    const wrapper = mount(ProductFormFields, { props: { modelValue } });
     await wrapper.find('input[name="name"]').setValue('iPhone');
-    const emitted = wrapper.emitted('update:modelValue') as ProductFormData[][];
-    expect(emitted[0]![0]).toEqual({ name: 'iPhone', sellingPrice: null });
+    expect(modelValue.name).toBe('iPhone');
   });
 
-  it('emits update:modelValue with updated sellingPrice when price input changes', async () => {
-    const wrapper = mount(ProductFormFields, {
-      props: { modelValue: { name: 'iPhone', sellingPrice: null } },
-    });
+  it('updates sellingPrice in the model when price input changes', async () => {
+    const modelValue: ProductFormData = { name: 'iPhone', sellingPrice: '' };
+    const wrapper = mount(ProductFormFields, { props: { modelValue } });
     await wrapper.find('input[name="sellingPrice"]').setValue('999.99');
-    const emitted = wrapper.emitted('update:modelValue') as ProductFormData[][];
-    expect(emitted[0]![0]).toEqual({ name: 'iPhone', sellingPrice: 999.99 });
+    expect(modelValue.sellingPrice).toBe('999.99');
   });
 
-  it('emits null for sellingPrice when price input is cleared', async () => {
-    const wrapper = mount(ProductFormFields, {
-      props: { modelValue: { name: 'iPhone', sellingPrice: 999 } },
-    });
+  it('sets sellingPrice to empty string when price input is cleared', async () => {
+    const modelValue: ProductFormData = { name: 'iPhone', sellingPrice: '999' };
+    const wrapper = mount(ProductFormFields, { props: { modelValue } });
     await wrapper.find('input[name="sellingPrice"]').setValue('');
-    const emitted = wrapper.emitted('update:modelValue') as ProductFormData[][];
-    expect(emitted[0]![0]).toEqual({ name: 'iPhone', sellingPrice: null });
+    expect(modelValue.sellingPrice).toBe('');
   });
 
   it('reflects the modelValue prop in the name input', () => {
     const wrapper = mount(ProductFormFields, {
-      props: { modelValue: { name: 'Produto X', sellingPrice: null } },
+      props: { modelValue: { name: 'Produto X', sellingPrice: '' } },
     });
     const input = wrapper.find('input[name="name"]').element as HTMLInputElement;
     expect(input.value).toBe('Produto X');
@@ -77,7 +71,7 @@ describe('ProductFormFields', () => {
 
   it('reflects the modelValue prop in the sellingPrice input', () => {
     const wrapper = mount(ProductFormFields, {
-      props: { modelValue: { name: '', sellingPrice: 49.9 } },
+      props: { modelValue: { name: '', sellingPrice: '49.9' } },
     });
     const input = wrapper.find('input[name="sellingPrice"]').element as HTMLInputElement;
     expect(input.value).toBe('49.9');

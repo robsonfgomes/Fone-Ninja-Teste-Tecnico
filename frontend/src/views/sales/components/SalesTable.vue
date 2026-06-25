@@ -29,7 +29,6 @@ function statusClass(status: Sale['status']): string {
               <th class="text-center">Status</th>
               <th class="text-end">Total</th>
               <th class="text-end">Lucro</th>
-              <th class="text-center">Criado em</th>
             </tr>
           </thead>
           <tbody>
@@ -42,7 +41,6 @@ function statusClass(status: Sale['status']): string {
               <td class="text-end" :class="sale.profit >= 0 ? 'text-success' : 'text-danger'">
                 {{ formatCurrency(sale.profit) }}
               </td>
-              <td class="text-center">{{ sale.createdAt }}</td>
             </tr>
           </tbody>
         </table>

@@ -12,7 +12,7 @@ const toast = useToastStore();
 
 const modal = ref<InstanceType<typeof AppModal>>();
 const formRef = ref<HTMLFormElement>();
-const formData = ref<ProductFormData>({ name: '', sellingPrice: null });
+const formData = ref<ProductFormData>({ name: '', sellingPrice: '' });
 
 function show() {
   modal.value!.show();
@@ -21,8 +21,6 @@ function show() {
 async function handleSubmit() {
   formRef.value!.classList.add('was-validated');
   if (!formRef.value!.checkValidity()) return;
-  // jsdom does not enforce minlength via checkValidity(); mirrors minlength="3" in ProductFormFields
-  if (!formData.value.name || formData.value.name.length < 3) return;
 
   await store.createProduct(formData.value);
   await store.fetchProducts();
@@ -31,7 +29,7 @@ async function handleSubmit() {
 }
 
 function resetForm() {
-  formData.value = { name: '', sellingPrice: null };
+  formData.value = { name: '', sellingPrice: '' };
   formRef.value?.classList.remove('was-validated');
 }
 
