@@ -3,18 +3,19 @@ import { ref } from 'vue';
 import AppModal from '@/components/AppModal.vue';
 import AppButton from '@/components/AppButton.vue';
 import ProductItemsEditor from '@/components/ProductItemsEditor.vue';
+import PurchaseFormFields from './PurchaseFormFields.vue';
 import { productsService } from '@/services/products.service';
 import { purchasesService } from '@/services/purchases.service';
 import { useToastStore } from '@/stores/toast.store';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/purchase';
+import type { ProductOrderItem, PurchaseFormData } from '@/types/purchase';
 
 const emit = defineEmits<{ created: [] }>();
 
 const toast = useToastStore();
 const modal = ref<InstanceType<typeof AppModal>>();
 const formRef = ref<HTMLFormElement>();
-const supplierName = ref('');
+const formData = ref<PurchaseFormData>({ supplierName: '' });
 const items = ref<ProductOrderItem[]>([]);
 const products = ref<Product[]>([]);
 const isCreating = ref(false);
@@ -37,7 +38,7 @@ async function handleSubmit() {
   isCreating.value = true;
   try {
     await purchasesService.create({
-      supplier: supplierName.value,
+      supplier: formData.value.supplierName,
       products: items.value.map(i => ({
         id: i.productId,
         quantity: i.quantity,
@@ -55,7 +56,7 @@ async function handleSubmit() {
 }
 
 function resetForm() {
-  supplierName.value = '';
+  formData.value = { supplierName: '' };
   items.value = [];
   products.value = [];
   formRef.value?.classList.remove('was-validated');
@@ -68,20 +69,7 @@ defineExpose({ show });
   <AppModal ref="modal" title="Cadastrar Compra" size="lg" @hidden="resetForm">
     <template #body>
       <form ref="formRef" novalidate class="needs-validation">
-        <div class="mb-3">
-          <label for="supplier-name" class="form-label">Nome do Fornecedor</label>
-          <input
-            id="supplier-name"
-            name="supplierName"
-            type="text"
-            class="form-control"
-            v-model="supplierName"
-            required
-            minlength="3"
-            maxlength="255"
-          />
-          <div class="invalid-feedback">O nome deve ter no mínimo 3 caracteres.</div>
-        </div>
+        <PurchaseFormFields v-model="formData" />
 
         <label class="form-label">Produtos</label>
         <ProductItemsEditor v-model="items" :products="products" />

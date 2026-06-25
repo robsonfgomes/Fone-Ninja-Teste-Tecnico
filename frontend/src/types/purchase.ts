@@ -29,3 +29,7 @@ export interface ProductOrderItem {
   quantity: number;
   unitPrice: string;
 }
+
+export interface PurchaseFormData {
+  supplierName: string;
+}
