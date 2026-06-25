@@ -39,3 +39,24 @@ describe('productsService.create', () => {
     expect(result).toEqual(mockProduct);
   });
 });
+
+describe('productsService.list', () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it('calls GET /produtos with page and per_page params', async () => {
+    const mockResponse = {
+      data: [],
+      meta: {
+        current_page: 1, last_page: 1, from: 1, to: 0,
+        total: 0, per_page: 100, links: [],
+      },
+    };
+    vi.mocked(api.get).mockResolvedValue({ data: mockResponse });
+
+    await productsService.list(1, 100);
+
+    expect(api.get).toHaveBeenCalledWith('/produtos', {
+      params: { page: 1, per_page: 100 },
+    });
+  });
+});

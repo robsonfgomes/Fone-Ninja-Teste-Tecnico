@@ -23,3 +23,9 @@ export interface PurchaseOrderResult {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ProductOrderItem {
+  productId: string;
+  quantity: number;
+  unitPrice: string;
+}
