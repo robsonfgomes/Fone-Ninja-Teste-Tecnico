@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Sale;
 
 use App\Dtos\Sale\FilterSalesDto;
-use App\Http\Requests\AbstractFilterRequest;
+use App\Http\Requests\Abstract\AbstractFilterRequest;
 
 class FilterSalesRequest extends AbstractFilterRequest
 {

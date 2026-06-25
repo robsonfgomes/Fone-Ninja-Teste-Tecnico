@@ -4,7 +4,7 @@ namespace App\Http\Requests\PurchaseOrder;
 
 use App\Dtos\PurchaseOrder\CreatePurchaseOrderDto;
 use App\Dtos\PurchaseOrder\PurchaseOrderItemDto;
-use App\Http\Requests\AbstractRequest;
+use App\Http\Requests\Abstract\AbstractRequest;
 
 class CreatePurchaseOrderRequest extends AbstractRequest
 {

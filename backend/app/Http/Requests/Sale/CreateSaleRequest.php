@@ -4,7 +4,7 @@ namespace App\Http\Requests\Sale;
 
 use App\Dtos\Sale\CreateSaleDto;
 use App\Dtos\Sale\SaleItemDto;
-use App\Http\Requests\AbstractRequest;
+use App\Http\Requests\Abstract\AbstractRequest;
 use App\Models\Product\Product;
 
 class CreateSaleRequest extends AbstractRequest

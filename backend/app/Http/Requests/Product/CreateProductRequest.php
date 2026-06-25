@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Product;
 
 use App\Dtos\Product\CreateProductDto;
-use App\Http\Requests\AbstractRequest;
+use App\Http\Requests\Abstract\AbstractRequest;
 
 class CreateProductRequest extends AbstractRequest
 {
