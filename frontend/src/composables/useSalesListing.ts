@@ -1,10 +1,9 @@
-import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { salesService } from '@/services/sales.service';
 import type { Sale } from '@/types/sale';
 import type { PaginationMeta } from '@/types/pagination';
 
-export const useSalesStore = defineStore('sales', () => {
+export function useSalesListing() {
   const sales = ref<Sale[]>([]);
   const meta = ref<PaginationMeta | null>(null);
 
@@ -15,4 +14,4 @@ export const useSalesStore = defineStore('sales', () => {
   }
 
   return { sales, meta, fetchSales };
-});
+}

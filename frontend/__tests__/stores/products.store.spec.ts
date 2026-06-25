@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { setActivePinia, createPinia } from 'pinia';
-import { useProductsStore } from '../products.store';
+import { useProductsStore } from '@/stores/products.store';
 import { productsService } from '@/services/products.service';
 import type { PaginatedResponse } from '@/types/pagination';
 import type { Product } from '@/types/product';

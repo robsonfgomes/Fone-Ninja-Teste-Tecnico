@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { useSalesStore } from '@/stores/sales.store';
+import { useSalesListing } from '@/composables/useSalesListing';
 import SalesTable from './components/SalesTable.vue';
 import AppPagination from '@/components/AppPagination.vue';
 
-const store = useSalesStore();
+const { sales, meta, fetchSales } = useSalesListing();
 
-onMounted(() => store.fetchSales());
+onMounted(() => fetchSales());
 </script>
 
 <template>
   <div>
     <h2 class="mb-4">Vendas</h2>
-    <SalesTable :sales="store.sales" />
-    <div v-if="store.meta" class="d-flex justify-content-center mt-3">
-      <AppPagination :meta="store.meta" @page-change="store.fetchSales" />
+    <SalesTable :sales="sales" />
+    <div v-if="meta" class="d-flex justify-content-center mt-3">
+      <AppPagination :meta="meta" @page-change="fetchSales" />
     </div>
   </div>
 </template>

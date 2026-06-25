@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import AppPagination from '../AppPagination.vue';
+import AppPagination from '@/components/AppPagination.vue';
 import type { PaginationMeta } from '@/types/pagination';
 
 function makeMeta(overrides: Partial<PaginationMeta> = {}): PaginationMeta {

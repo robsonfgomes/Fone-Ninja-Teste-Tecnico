@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { setActivePinia, createPinia } from 'pinia';
-import { useSalesStore } from '../sales.store';
+import { useSalesListing } from '@/composables/useSalesListing';
 import { salesService } from '@/services/sales.service';
 import type { PaginatedResponse } from '@/types/pagination';
 import type { Sale } from '@/types/sale';
@@ -30,28 +29,27 @@ const mockResponse: PaginatedResponse<Sale> = {
   },
 };
 
-describe('useSalesStore', () => {
+describe('useSalesListing', () => {
   beforeEach(() => {
-    setActivePinia(createPinia());
     vi.mocked(salesService.list).mockResolvedValue(mockResponse);
   });
 
   it('populates sales and meta after fetchSales', async () => {
-    const store = useSalesStore();
-    await store.fetchSales();
-    expect(store.sales).toEqual([mockSale]);
-    expect(store.meta).toEqual(mockResponse.meta);
+    const { sales, meta, fetchSales } = useSalesListing();
+    await fetchSales();
+    expect(sales.value).toEqual([mockSale]);
+    expect(meta.value).toEqual(mockResponse.meta);
   });
 
   it('passes page 1 by default', async () => {
-    const store = useSalesStore();
-    await store.fetchSales();
+    const { fetchSales } = useSalesListing();
+    await fetchSales();
     expect(salesService.list).toHaveBeenCalledWith(1);
   });
 
   it('passes the given page number to the service', async () => {
-    const store = useSalesStore();
-    await store.fetchSales(3);
+    const { fetchSales } = useSalesListing();
+    await fetchSales(3);
     expect(salesService.list).toHaveBeenCalledWith(3);
   });
 });
