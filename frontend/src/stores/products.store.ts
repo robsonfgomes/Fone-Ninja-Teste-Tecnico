@@ -17,11 +17,14 @@ export const useProductsStore = defineStore('products', () => {
   }
 
   async function createProduct(data: ProductFormData): Promise<void> {
+    if (data.sellingPrice === null) {
+      throw new Error('sellingPrice is required');
+    }
     isCreating.value = true;
     try {
       await productsService.create({
         name: data.name,
-        selling_price: data.sellingPrice!,
+        selling_price: data.sellingPrice,
         initial_stock: 0,
       });
     } finally {
