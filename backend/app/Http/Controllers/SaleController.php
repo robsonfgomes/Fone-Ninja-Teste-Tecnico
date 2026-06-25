@@ -8,7 +8,7 @@ use App\Actions\Sale\ListSalesAction;
 use App\Enums\SaleStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\CreateSaleRequest;
-use App\Http\Requests\Sale\ListSalesRequest;
+use App\Http\Requests\Sale\FilterSalesRequest;
 use App\Http\Requests\Sale\UpdateSaleRequest;
 use App\Http\Resources\Sale\CancelledSaleResource;
 use App\Http\Resources\Sale\ListSaleResource;
@@ -25,7 +25,7 @@ class SaleController extends Controller
         private readonly ListSalesAction $listSalesAction,
     ) {}
 
-    public function index(ListSalesRequest $request): JsonResponse
+    public function index(FilterSalesRequest $request): JsonResponse
     {
         $sales = $this->listSalesAction->execute($request->toDto());
 

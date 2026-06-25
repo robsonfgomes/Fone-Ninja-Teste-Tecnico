@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Dtos\Product;
+namespace App\Dtos;
 
 use App\Interfaces\DtoInterface;
 
-class ListProductsDto implements DtoInterface
+abstract class AbstractFilterDto implements DtoInterface
 {
     public function __construct(
         public readonly int $page,

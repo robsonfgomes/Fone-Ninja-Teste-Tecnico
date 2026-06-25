@@ -2,13 +2,13 @@
 
 namespace App\Actions\Sale;
 
-use App\Dtos\Sale\ListSalesDto;
+use App\Dtos\Sale\FilterSalesDto;
 use App\Models\Sale\Sale;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListSalesAction
 {
-    public function execute(ListSalesDto $dto): LengthAwarePaginator
+    public function execute(FilterSalesDto $dto): LengthAwarePaginator
     {
         return Sale::query()
             ->with('items.product')

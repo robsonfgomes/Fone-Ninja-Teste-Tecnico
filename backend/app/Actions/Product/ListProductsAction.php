@@ -2,15 +2,15 @@
 
 namespace App\Actions\Product;
 
-use App\Dtos\Product\ListProductsDto;
+use App\Dtos\Product\FilterProductsDto;
 use App\Models\Product\Product;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListProductsAction
 {
-    public function execute(ListProductsDto $dto): LengthAwarePaginator
+    public function execute(FilterProductsDto $dto): LengthAwarePaginator
     {
-        return Product::query()->orderBy('name')->paginate(
+        return Product::query()->orderByDesc('created_at')->paginate(
             perPage: $dto->perPage,
             page: $dto->page,
         );
