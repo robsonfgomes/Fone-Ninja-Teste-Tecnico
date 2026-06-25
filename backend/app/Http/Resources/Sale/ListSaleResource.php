@@ -11,9 +11,9 @@ class ListSaleResource extends JsonResource
     public function toArray(Request $request): array
     {
         /** @var Sale $this */
-        $total  = $this->items->sum(fn($item) => $item->unit_price * $item->quantity);
+        $total  = $this->items->sum(fn($item) => (float) $item->unit_price * $item->quantity);
         $profit = $this->items->sum(
-            fn($item) => ($item->unit_price - (float) ($item->product->average_cost ?? 0)) * $item->quantity
+            fn($item) => ((float) $item->unit_price - (float) ($item->product?->average_cost ?? 0)) * $item->quantity
         );
 
         return [
