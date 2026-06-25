@@ -21,6 +21,7 @@ function show() {
 async function handleSubmit() {
   formRef.value!.classList.add('was-validated');
   if (!formRef.value!.checkValidity()) return;
+  // jsdom does not enforce minlength via checkValidity(); mirrors minlength="3" in ProductFormFields
   if (!formData.value.name || formData.value.name.length < 3) return;
 
   await store.createProduct(formData.value);
