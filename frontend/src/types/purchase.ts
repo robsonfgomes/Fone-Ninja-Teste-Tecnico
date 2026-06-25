@@ -1,3 +1,11 @@
+export interface PurchaseOrder {
+  id: string;
+  supplierName: string;
+  totalAmount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface PurchaseItem {
   id: string;
   quantity: number;
