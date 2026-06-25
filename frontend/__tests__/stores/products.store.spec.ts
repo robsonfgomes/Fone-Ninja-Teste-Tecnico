@@ -55,3 +55,48 @@ describe('useProductsStore', () => {
     expect(productsService.list).toHaveBeenCalledWith(3);
   });
 });
+
+describe('createProduct', () => {
+  beforeEach(() => {
+    setActivePinia(createPinia());
+    vi.mocked(productsService.list).mockResolvedValue(mockResponse);
+  });
+
+  it('calls productsService.create with the correct payload (initial_stock hardcoded to 0)', async () => {
+    vi.mocked(productsService.create).mockResolvedValue(mockProduct);
+    const store = useProductsStore();
+
+    await store.createProduct({ name: 'iPhone', sellingPrice: 999 });
+
+    expect(productsService.create).toHaveBeenCalledWith({
+      name: 'iPhone',
+      selling_price: 999,
+      initial_stock: 0,
+    });
+  });
+
+  it('sets isCreating to true during the request and false after', async () => {
+    let resolveCreate!: (value: Product) => void;
+    vi.mocked(productsService.create).mockReturnValue(
+      new Promise((resolve) => {
+        resolveCreate = resolve;
+      }),
+    );
+    const store = useProductsStore();
+
+    const promise = store.createProduct({ name: 'iPhone', sellingPrice: 999 });
+    expect(store.isCreating).toBe(true);
+
+    resolveCreate(mockProduct);
+    await promise;
+    expect(store.isCreating).toBe(false);
+  });
+
+  it('sets isCreating to false even when create rejects', async () => {
+    vi.mocked(productsService.create).mockRejectedValue(new Error('API error'));
+    const store = useProductsStore();
+
+    await expect(store.createProduct({ name: 'iPhone', sellingPrice: 999 })).rejects.toThrow();
+    expect(store.isCreating).toBe(false);
+  });
+});
