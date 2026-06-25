@@ -25,6 +25,7 @@ Route::prefix('produtos')->group(function () {
 Route::post('compras', [PurchaseOrderController::class, 'store']);
 
 Route::prefix('vendas')->group(function () {
+    Route::get('/', [SaleController::class, 'index']);
     Route::post('/', [SaleController::class, 'store']);
     Route::patch('/{venda}', [SaleController::class, 'update']);
 });

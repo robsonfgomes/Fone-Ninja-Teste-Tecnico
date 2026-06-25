@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\Sale\CancelSaleAction;
 use App\Actions\Sale\CreateSaleAction;
+use App\Actions\Sale\ListSalesAction;
 use App\Enums\SaleStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sale\CreateSaleRequest;
+use App\Http\Requests\Sale\ListSalesRequest;
 use App\Http\Requests\Sale\UpdateSaleRequest;
 use App\Http\Resources\Sale\CancelledSaleResource;
+use App\Http\Resources\Sale\ListSaleResource;
 use App\Http\Resources\Sale\SaleResource;
 use App\Models\Sale\Sale;
 use Illuminate\Http\JsonResponse;
@@ -19,7 +22,15 @@ class SaleController extends Controller
     public function __construct(
         private readonly CreateSaleAction $createSaleAction,
         private readonly CancelSaleAction $cancelSaleAction,
+        private readonly ListSalesAction $listSalesAction,
     ) {}
+
+    public function index(ListSalesRequest $request): JsonResponse
+    {
+        $sales = $this->listSalesAction->execute($request->toDto());
+
+        return ListSaleResource::collection($sales)->response();
+    }
 
     public function store(CreateSaleRequest $request): JsonResponse
     {
