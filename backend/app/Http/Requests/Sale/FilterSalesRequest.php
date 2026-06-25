@@ -9,6 +9,9 @@ class FilterSalesRequest extends AbstractFilterRequest
 {
     public function toDto(): FilterSalesDto
     {
-        return FilterSalesDto::fromArray($this->validated());
+        return new FilterSalesDto(
+            page: $this->page(),
+            perPage: $this->perPage(),
+        );
     }
 }
