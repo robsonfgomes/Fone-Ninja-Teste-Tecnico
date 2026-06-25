@@ -12,7 +12,6 @@ Route::get('/health', function () {
     ]);
 });
 
-// TODO: Verificar se podemos remover isso posteriormente.
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -22,7 +21,10 @@ Route::prefix('produtos')->group(function () {
     Route::post('/', [ProductController::class, 'store']);
 });
 
-Route::post('compras', [PurchaseOrderController::class, 'store']);
+Route::prefix('compras')->group(function () {
+    Route::get('/', [PurchaseOrderController::class, 'index']);
+    Route::post('/', [PurchaseOrderController::class, 'store']);
+});
 
 Route::prefix('vendas')->group(function () {
     Route::get('/', [SaleController::class, 'index']);
