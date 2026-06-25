@@ -1,6 +1,5 @@
 import { api } from './api';
 import type { Sale, CreateSalePayload, SaleResult, CancelledSaleResult } from '@/types/sale';
-
 import type { PaginatedResponse } from '@/types/pagination';
 
 export const salesService = {
@@ -12,15 +11,7 @@ export const salesService = {
   },
 
   async create(payload: CreateSalePayload): Promise<SaleResult> {
-    const body = {
-      customer: payload.customer,
-      products: payload.products.map(p => ({
-        id: p.id,
-        quantity: p.quantity,
-        unit_price: p.unitPrice,
-      })),
-    };
-    const response = await api.post<{ data: SaleResult }>('/vendas', body);
+    const response = await api.post<{ data: SaleResult }>('/vendas', payload);
     return response.data.data;
   },
 

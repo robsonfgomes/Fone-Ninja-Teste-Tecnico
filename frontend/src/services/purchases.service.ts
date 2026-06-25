@@ -11,15 +11,7 @@ export const purchasesService = {
   },
 
   async create(payload: CreatePurchasePayload): Promise<PurchaseOrder> {
-    const body = {
-      supplier: payload.supplier,
-      products: payload.products.map(p => ({
-        id: p.id,
-        quantity: p.quantity,
-        unit_price: p.unitPrice,
-      })),
-    };
-    const response = await api.post<{ data: PurchaseOrder }>('/compras', body);
+    const response = await api.post<{ data: PurchaseOrder }>('/compras', payload);
     return response.data.data;
   },
 };
