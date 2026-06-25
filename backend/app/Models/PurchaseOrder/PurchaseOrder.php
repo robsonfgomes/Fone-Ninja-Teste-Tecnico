@@ -4,11 +4,13 @@ namespace App\Models\PurchaseOrder;
 
 use App\Models\Abstract\AbstractModel;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property string $id
  * @property string $supplier_name
+ * @property float $totalAmount
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */
@@ -18,5 +20,17 @@ class PurchaseOrder extends AbstractModel
     public function items(): HasMany
     {
         return $this->hasMany(PurchaseOrderItem::class);
+    }
+
+    protected function totalAmount(): Attribute
+    {
+        return Attribute::get(
+            fn() => round(
+                $this->items->sum(
+                    fn($item) => $item->quantity * (float) $item->unit_price
+                ),
+                2
+            )
+        );
     }
 }

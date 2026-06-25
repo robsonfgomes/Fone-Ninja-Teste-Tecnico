@@ -12,11 +12,13 @@ class SaleResource extends JsonResource
     {
         /** @var Sale $this */
         return [
-            'saleId'      => $this->id,
-            'totalAmount' => $this->totalAmount,
-            'profit'      => $this->profit,
-            'createdAt'   => $this->getCreatedAt(),
-            'updatedAt'   => $this->getUpdatedAt(),
+            'id'           => $this->id,
+            'customerName' => $this->customer_name,
+            'status'       => $this->status->value,
+            'totalAmount'  => $this->totalAmount,
+            'profit'       => $this->profit,
+            'createdAt'    => $this->getCreatedAt(),
+            'updatedAt'    => $this->getUpdatedAt(),
         ];
     }
 }

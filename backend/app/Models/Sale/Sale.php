@@ -29,7 +29,9 @@ class Sale extends AbstractModel
     {
         return Attribute::get(
             fn() => round(
-                $this->items->sum(fn($item) => (float) $item->unit_price * $item->quantity),
+                $this->items->sum(
+                    fn($item) => (float) $item->unit_price * $item->quantity
+                ),
                 2
             )
         );
@@ -39,7 +41,9 @@ class Sale extends AbstractModel
     {
         return Attribute::get(
             fn() => round(
-                $this->items->sum(fn($item) => ((float) $item->unit_price - (float) ($item->product?->average_cost ?? 0)) * $item->quantity),
+                $this->items->sum(
+                    fn($item) => ((float) $item->unit_price - (float) ($item->product?->average_cost ?? 0)) * $item->quantity
+                ),
                 2
             )
         );

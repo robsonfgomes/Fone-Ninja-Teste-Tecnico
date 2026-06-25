@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\Product\CreateProductAction;
-use App\Actions\Product\ListProductsAction;
+use App\Actions\Product\FilterProductsAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\CreateProductRequest;
 use App\Http\Requests\Product\FilterProductsRequest;
@@ -15,12 +15,12 @@ class ProductController extends Controller
 {
     public function __construct(
         private readonly CreateProductAction $createProductAction,
-        private readonly ListProductsAction $listProductsAction,
+        private readonly FilterProductsAction $filterProductsAction,
     ) {}
 
     public function index(FilterProductsRequest $request): JsonResponse
     {
-        $products = $this->listProductsAction->execute($request->toDto());
+        $products = $this->filterProductsAction->execute($request->toDto());
 
         return ProductResource::collection($products)->response();
     }

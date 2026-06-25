@@ -43,7 +43,7 @@ class CancelSaleTest extends TestCase
 
         $response->assertStatus(200)
             ->assertJsonStructure([
-                'data' => ['saleId', 'status', 'createdAt', 'updatedAt'],
+                'data' => ['id', 'status', 'createdAt', 'updatedAt'],
             ])
             ->assertJsonPath('data.status', 'Cancelled');
     }

@@ -3,6 +3,8 @@
 namespace App\Actions\Sale;
 
 use App\Dtos\Sale\CreateSaleDto;
+use App\Dtos\Sale\SaleItemDto;
+use App\Enums\SaleStatusEnum;
 use App\Models\Product\Product;
 use App\Models\Sale\Sale;
 use App\Models\Sale\SaleItem;
@@ -13,19 +15,23 @@ class CreateSaleAction
     public function execute(CreateSaleDto $dto): Sale
     {
         $sale = DB::transaction(function () use ($dto) {
-            $sale = Sale::create(['customer_name' => $dto->customer]);
+            $sale = Sale::create([
+                'customer_name' => $dto->customer,
+                'status' => SaleStatusEnum::Active
+            ]);
 
-            foreach ($dto->items as $item) {
-                $product = Product::findOrFail($item->productId);
+            /** @var SaleItemDto $saleItemDto */
+            foreach ($dto->items as $saleItemDto) {
+                $product = Product::findOrFail($saleItemDto->productId);
 
                 SaleItem::create([
                     'sale_id'    => $sale->id,
-                    'product_id' => $item->productId,
-                    'quantity'   => $item->quantity,
-                    'unit_price' => $item->unitPrice,
+                    'product_id' => $saleItemDto->productId,
+                    'quantity'   => $saleItemDto->quantity,
+                    'unit_price' => $saleItemDto->unitPrice,
                 ]);
 
-                $product->decrementStock($item->quantity);
+                $product->decrementStock($saleItemDto->quantity);
             }
 
             return $sale;

@@ -27,7 +27,7 @@ class CreatePurchaseOrderTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'data' => ['purchaseOrderId', 'totalAmount', 'createdAt', 'updatedAt'],
+                'data' => ['id', 'totalAmount', 'createdAt', 'updatedAt'],
             ])
             ->assertJsonPath('data.totalAmount', 1000);
     }

@@ -28,7 +28,7 @@ class CreateSaleTest extends TestCase
 
         $response->assertStatus(201)
             ->assertJsonStructure([
-                'data' => ['saleId', 'totalAmount', 'profit', 'createdAt', 'updatedAt'],
+                'data' => ['id', 'totalAmount', 'profit', 'createdAt', 'updatedAt'],
             ]);
     }
 

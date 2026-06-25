@@ -11,13 +11,10 @@ class PurchaseOrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         /** @var PurchaseOrder $this */
-        $totalAmount = $this->items->sum(
-            fn($item) => $item->quantity * (float) $item->unit_price
-        );
-
         return [
-            'purchaseOrderId' => $this->id,
-            'totalAmount'     => round($totalAmount, 2),
+            'id'              => $this->id,
+            'supplierName'    => $this->supplier_name,
+            'totalAmount'     => $this->totalAmount,
             'createdAt'       => $this->getCreatedAt(),
             'updatedAt'       => $this->getUpdatedAt(),
         ];
