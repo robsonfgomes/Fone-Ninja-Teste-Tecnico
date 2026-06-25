@@ -13,7 +13,7 @@ onMounted(() => store.fetchProducts());
   <div>
     <h2 class="mb-4">Produtos</h2>
     <ProductsTable :products="store.products" />
-    <div v-if="store.meta" class="d-flex justify-content-end mt-3">
+    <div v-if="store.meta" class="d-flex justify-content-center mt-3">
       <AppPagination :meta="store.meta" @page-change="store.fetchProducts" />
     </div>
   </div>

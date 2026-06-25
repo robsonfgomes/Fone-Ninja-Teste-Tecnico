@@ -1,5 +1,19 @@
+<script setup lang="ts">
+import { useLoadingStore } from '@/stores/loading.store';
+import LoadingOverlay from '@/components/LoadingOverlay.vue';
+import ToastContainer from '@/components/ToastContainer.vue';
+
+const loading = useLoadingStore();
+</script>
+
 <template>
     <div>
+        <Transition name="fade">
+            <LoadingOverlay v-if="loading.isLoading" />
+        </Transition>
+
+        <ToastContainer />
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">Fone Ninja ERP</a>
@@ -37,13 +51,23 @@
             </div>
         </nav>
 
-        <div class="container py-4">
+        <main class="container py-4">
             <router-view></router-view>
-        </div>
+        </main>
     </div>
 </template>
 
 <style scoped>
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
 .navbar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }

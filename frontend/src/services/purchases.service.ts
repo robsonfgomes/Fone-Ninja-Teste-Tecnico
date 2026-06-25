@@ -2,6 +2,8 @@ import { api } from './api';
 import type { CreatePurchasePayload, PurchaseOrderResult } from '@/types/purchase';
 
 export const purchasesService = {
-  create: (payload: CreatePurchasePayload): Promise<PurchaseOrderResult> =>
-    api.post<{ data: PurchaseOrderResult }>('/compras', payload).then((r) => r.data.data),
+  async create(payload: CreatePurchasePayload): Promise<PurchaseOrderResult> {
+    const response = await api.post<{ data: PurchaseOrderResult }>('/compras', payload);
+    return response.data.data;
+  },
 };

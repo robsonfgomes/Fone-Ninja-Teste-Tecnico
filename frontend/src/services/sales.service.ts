@@ -2,9 +2,13 @@ import { api } from './api';
 import type { CreateSalePayload, SaleResult, CancelledSaleResult } from '@/types/sale';
 
 export const salesService = {
-  create: (payload: CreateSalePayload): Promise<SaleResult> =>
-    api.post<{ data: SaleResult }>('/vendas', payload).then((r) => r.data.data),
+  async create(payload: CreateSalePayload): Promise<SaleResult> {
+    const response = await api.post<{ data: SaleResult }>('/vendas', payload);
+    return response.data.data;
+  },
 
-  cancel: (id: string): Promise<CancelledSaleResult> =>
-    api.patch<{ data: CancelledSaleResult }>(`/vendas/${id}`, { status: 'cancelled' }).then((r) => r.data.data),
+  async cancel(id: string): Promise<CancelledSaleResult> {
+    const response = await api.patch<{ data: CancelledSaleResult }>(`/vendas/${id}`, { status: 'cancelled' });
+    return response.data.data;
+  },
 };
