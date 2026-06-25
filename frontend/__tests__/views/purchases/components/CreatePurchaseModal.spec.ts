@@ -167,4 +167,17 @@ describe('CreatePurchaseModal', () => {
     await wrapper.find('button.btn-secondary').trigger('click');
     expect(mockModalInstance.hide).toHaveBeenCalledOnce();
   });
+
+  it('shows an error toast when products fail to load on show()', async () => {
+    vi.mocked(productsService.list).mockRejectedValueOnce(new Error('Network error'));
+    const wrapper = mount(CreatePurchaseModal);
+    const toast = useToastStore();
+    vi.spyOn(toast, 'add');
+
+    await (wrapper.vm as unknown as { show(): void }).show();
+    await flushPromises();
+
+    expect(toast.add).toHaveBeenCalledWith('Erro ao carregar produtos.', 'danger');
+    expect(mockModalInstance.show).not.toHaveBeenCalled();
+  });
 });

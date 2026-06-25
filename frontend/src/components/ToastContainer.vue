@@ -2,20 +2,13 @@
 import { useToastStore } from '@/stores/toast.store';
 
 const toast = useToastStore();
-
-const bgClass: Record<string, string> = {
-  error: 'text-bg-danger',
-  success: 'text-bg-success',
-  warning: 'text-bg-warning',
-  info: 'text-bg-info',
-};
 </script>
 
 <template>
   <div class="toast-container position-fixed top-0 end-0 p-3">
     <TransitionGroup name="toast">
       <div v-for="t in toast.toasts" :key="t.id" class="toast show align-items-center border-0 mb-2"
-        :class="bgClass[t.type]" role="alert" aria-live="assertive" aria-atomic="true">
+        :class="`text-bg-${t.type}`" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
           <div class="toast-body">{{ t.message }}</div>
           <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Fechar"

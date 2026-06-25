@@ -20,10 +20,14 @@ const products = ref<Product[]>([]);
 const isCreating = ref(false);
 
 async function show() {
-  const response = await productsService.list(1, 100);
-  products.value = response.data;
-  items.value = [{ productId: '', quantity: 1, unitPrice: '' }];
-  modal.value!.show();
+  try {
+    const response = await productsService.list(1, 100);
+    products.value = response.data;
+    items.value = [{ productId: '', quantity: 1, unitPrice: '' }];
+    modal.value!.show();
+  } catch {
+    toast.add('Erro ao carregar produtos.', 'danger');
+  }
 }
 
 async function handleSubmit() {
