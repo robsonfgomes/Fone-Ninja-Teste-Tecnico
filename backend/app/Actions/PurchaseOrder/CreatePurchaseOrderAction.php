@@ -3,7 +3,6 @@
 namespace App\Actions\PurchaseOrder;
 
 use App\Actions\Product\UpdateProductAverageCostAction;
-use App\Actions\Product\UpdateProductStockAction;
 use App\Dtos\PurchaseOrder\CreatePurchaseOrderDto;
 use App\Models\Product\Product;
 use App\Models\PurchaseOrder\PurchaseOrder;
@@ -14,7 +13,6 @@ class CreatePurchaseOrderAction
 {
     public function __construct(
         private readonly UpdateProductAverageCostAction $updateProductAverageCostAction,
-        private readonly UpdateProductStockAction $updateProductStockAction,
     ) {}
 
     public function execute(CreatePurchaseOrderDto $dto): PurchaseOrder
@@ -33,7 +31,7 @@ class CreatePurchaseOrderAction
                 ]);
 
                 $this->updateProductAverageCostAction->execute($product, $item->quantity, $item->unitPrice);
-                $this->updateProductStockAction->execute($product, $item->quantity);
+                $product->incrementStock($item->quantity);
             }
 
             return $order->load('items');

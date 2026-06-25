@@ -2,7 +2,6 @@
 
 namespace App\Actions\Sale;
 
-use App\Actions\Product\UpdateProductStockAction;
 use App\Enums\SaleStatusEnum;
 use App\Exceptions\SaleAlreadyCancelledException;
 use App\Models\Sale\Sale;
@@ -11,10 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class CancelSaleAction
 {
-    public function __construct(
-        private readonly UpdateProductStockAction $updateProductStockAction,
-    ) {}
-
     public function execute(Sale $sale): Sale
     {
         if ($sale->status === SaleStatusEnum::Cancelled) {
@@ -28,7 +23,7 @@ class CancelSaleAction
 
             /** @var SaleItem $item */
             foreach ($sale->items as $item) {
-                $this->updateProductStockAction->execute($item->product, $item->quantity);
+                $item->product->incrementStock($item->quantity);
             }
 
             return $sale->refresh();

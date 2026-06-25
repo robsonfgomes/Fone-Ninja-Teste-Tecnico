@@ -17,6 +17,16 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 #[Fillable(['name', 'selling_price', 'current_stock', 'average_cost'])]
 class Product extends AbstractModel
 {
+    public function incrementStock(int $quantity): void
+    {
+        $this->update(['current_stock' => $this->current_stock + $quantity]);
+    }
+
+    public function decrementStock(int $quantity): void
+    {
+        $this->update(['current_stock' => $this->current_stock - $quantity]);
+    }
+
     protected function casts(): array
     {
         return [

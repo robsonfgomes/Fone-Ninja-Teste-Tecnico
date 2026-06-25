@@ -2,7 +2,6 @@
 
 namespace App\Actions\Sale;
 
-use App\Actions\Product\UpdateProductStockAction;
 use App\Dtos\Sale\CreateSaleDto;
 use App\Models\Product\Product;
 use App\Models\Sale\Sale;
@@ -11,10 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class CreateSaleAction
 {
-    public function __construct(
-        private readonly UpdateProductStockAction $updateProductStockAction,
-    ) {}
-
     public function execute(CreateSaleDto $dto): Sale
     {
         $sale = DB::transaction(function () use ($dto) {
@@ -30,7 +25,7 @@ class CreateSaleAction
                     'unit_price' => $item->unitPrice,
                 ]);
 
-                $this->updateProductStockAction->execute($product, -$item->quantity);
+                $product->decrementStock($item->quantity);
             }
 
             return $sale;
