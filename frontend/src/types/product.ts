@@ -13,3 +13,8 @@ export interface CreateProductPayload {
   selling_price: number;
   initial_stock?: number;
 }
+
+export interface ProductFormData {
+  name: string;
+  sellingPrice: number | null;
+}

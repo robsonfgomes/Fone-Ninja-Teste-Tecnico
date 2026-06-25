@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { Product } from '@/types/product';
+import type { Product, CreateProductPayload } from '@/types/product';
 import type { PaginatedResponse } from '@/types/pagination';
 
 export const productsService = {
@@ -9,5 +9,10 @@ export const productsService = {
     });
 
     return response.data;
+  },
+
+  async create(payload: CreateProductPayload): Promise<Product> {
+    const response = await api.post<{ data: Product }>('/produtos', payload);
+    return response.data.data;
   },
 };
