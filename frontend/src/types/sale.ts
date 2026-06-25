@@ -1,3 +1,13 @@
+export interface Sale {
+  id: string;
+  customerName: string;
+  status: 'Active' | 'Cancelled';
+  totalAmount: number;
+  profit: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface SaleItem {
   id: string;
   quantity: number;
