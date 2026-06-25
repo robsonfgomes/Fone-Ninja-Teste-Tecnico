@@ -8,7 +8,8 @@ import { productsService } from '@/services/products.service';
 import { purchasesService } from '@/services/purchases.service';
 import { useToastStore } from '@/stores/toast.store';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem, PurchaseFormData } from '@/types/purchase';
+import type { ProductOrderItem } from '@/types/order';
+import type { PurchaseFormData } from '@/types/purchase';
 
 const emit = defineEmits<{ created: [] }>();
 
@@ -42,9 +43,10 @@ async function handleSubmit() {
       products: items.value.map(i => ({
         id: i.productId,
         quantity: i.quantity,
-        unit_price: Number(i.unitPrice),
+        unitPrice: Number(i.unitPrice),
       })),
     });
+
     toast.add('Compra cadastrada com sucesso!', 'success');
     emit('created');
     modal.value!.hide();

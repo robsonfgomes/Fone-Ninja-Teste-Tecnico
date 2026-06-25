@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/purchase';
+import type { ProductOrderItem } from '@/types/order';
 
 const props = withDefaults(defineProps<{
   products: Product[];

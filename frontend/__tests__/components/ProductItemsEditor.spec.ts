@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ProductItemsEditor from '@/components/ProductItemsEditor.vue';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/purchase';
+import type { ProductOrderItem } from '@/types/order';
 
 const mockProducts: Product[] = [
   { id: '1', name: 'iPhone', sellingPrice: 999, currentStock: 5, averageCost: null, createdAt: '', updatedAt: '' },

@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { PurchaseOrder, CreatePurchasePayload, PurchaseOrderResult } from '@/types/purchase';
+import type { PurchaseOrder, CreatePurchasePayload } from '@/types/purchase';
 import type { PaginatedResponse } from '@/types/pagination';
 
 export const purchasesService = {
@@ -10,8 +10,16 @@ export const purchasesService = {
     return response.data;
   },
 
-  async create(payload: CreatePurchasePayload): Promise<PurchaseOrderResult> {
-    const response = await api.post<{ data: PurchaseOrderResult }>('/compras', payload);
+  async create(payload: CreatePurchasePayload): Promise<PurchaseOrder> {
+    const body = {
+      supplier: payload.supplier,
+      products: payload.products.map(p => ({
+        id: p.id,
+        quantity: p.quantity,
+        unit_price: p.unitPrice,
+      })),
+    };
+    const response = await api.post<{ data: PurchaseOrder }>('/compras', body);
     return response.data.data;
   },
 };

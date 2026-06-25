@@ -1,3 +1,5 @@
+import type { OrderItem } from '@/types/order';
+
 export interface Sale {
   id: string;
   customerName: string;
@@ -8,15 +10,9 @@ export interface Sale {
   updatedAt: string;
 }
 
-export interface SaleItem {
-  id: string;
-  quantity: number;
-  unit_price: number;
-}
-
 export interface CreateSalePayload {
   customer: string;
-  products: SaleItem[];
+  products: OrderItem[];
 }
 
 export interface SaleResult {

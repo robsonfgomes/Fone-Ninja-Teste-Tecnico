@@ -81,7 +81,7 @@ describe('CreatePurchaseModal', () => {
 
     expect(purchasesService.create).toHaveBeenCalledWith({
       supplier: 'Fornecedor ABC',
-      products: [{ id: '1', quantity: 1, unit_price: 999 }],
+      products: [{ id: '1', quantity: 1, unitPrice: 999 }],
     });
   });
 
