@@ -16,7 +16,7 @@ class CreateSaleRequest extends AbstractRequest
             'products'                  => ['required', 'array', 'min:1'],
             'products.*.id'             => ['required', 'uuid', 'exists:products,id', 'distinct'],
             'products.*.quantity'       => ['required', 'integer', 'min:1'],
-            'products.*.unit_price'     => ['required', 'numeric', 'gt:0'],
+            'products.*.unitPrice'      => ['required', 'numeric', 'gt:0'],
         ];
     }
 
@@ -33,7 +33,7 @@ class CreateSaleRequest extends AbstractRequest
                 if ($product && $product->current_stock < $item['quantity']) {
                     $validator->errors()->add(
                         "products.{$index}.quantity",
-                        "Estoque insuficiente. Disponível: {$product->current_stock}.",
+                        "Produto \"{$product->name}\": estoque insuficiente. Disponível: {$product->current_stock}.",
                     );
                 }
             }
@@ -46,7 +46,7 @@ class CreateSaleRequest extends AbstractRequest
             fn(array $item) => new SaleItemDto(
                 productId: $item['id'],
                 quantity: $item['quantity'],
-                unitPrice: (float) $item['unit_price'],
+                unitPrice: (float) $item['unitPrice'],
             ),
             $this->validated('products'),
         );

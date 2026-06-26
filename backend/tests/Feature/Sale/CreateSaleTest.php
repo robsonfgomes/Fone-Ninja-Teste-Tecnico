@@ -22,7 +22,7 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 2, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 2, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -44,7 +44,7 @@ class CreateSaleTest extends TestCase
         $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 3, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 3, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -64,7 +64,7 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 2, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 2, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -84,7 +84,7 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 2, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 2, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -111,8 +111,8 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product1->id, 'quantity' => 2, 'unit_price' => 80.00],
-                ['id' => $product2->id, 'quantity' => 1, 'unit_price' => 100.00],
+                ['id' => $product1->id, 'quantity' => 2, 'unitPrice' => 80.00],
+                ['id' => $product2->id, 'quantity' => 1, 'unitPrice' => 100.00],
             ],
         ]);
 
@@ -133,7 +133,7 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 2, 'unit_price' => 50.00],
+                ['id' => $product->id, 'quantity' => 2, 'unitPrice' => 50.00],
             ],
         ]);
 
@@ -151,7 +151,7 @@ class CreateSaleTest extends TestCase
 
         $response = $this->postJson('/api/vendas', [
             'products' => [
-                ['id' => $product->id, 'quantity' => 1, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 1, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -164,7 +164,7 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => '00000000-0000-0000-0000-000000000000', 'quantity' => 1, 'unit_price' => 80.00],
+                ['id' => '00000000-0000-0000-0000-000000000000', 'quantity' => 1, 'unitPrice' => 80.00],
             ],
         ]);
 
@@ -183,12 +183,33 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 5, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 5, 'unitPrice' => 80.00],
             ],
         ]);
 
         $response->assertStatus(422)
             ->assertJsonValidationErrors(['products.0.quantity']);
+    }
+
+    public function test_error_message_includes_product_name_and_available_stock(): void
+    {
+        $product = Product::create([
+            'name'          => 'Fone X',
+            'selling_price' => '200.00',
+            'current_stock' => 2,
+        ]);
+
+        $response = $this->postJson('/api/vendas', [
+            'customer' => 'Fulano da Silva',
+            'products' => [
+                ['id' => $product->id, 'quantity' => 5, 'unitPrice' => 80.00],
+            ],
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJsonFragment([
+                'products.0.quantity' => ['Produto "Fone X": estoque insuficiente. Disponível: 2.'],
+            ]);
     }
 
     public function test_returns_422_when_products_array_is_empty(): void
@@ -213,8 +234,8 @@ class CreateSaleTest extends TestCase
         $response = $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 2, 'unit_price' => 80.00],
-                ['id' => $product->id, 'quantity' => 1, 'unit_price' => 90.00],
+                ['id' => $product->id, 'quantity' => 2, 'unitPrice' => 80.00],
+                ['id' => $product->id, 'quantity' => 1, 'unitPrice' => 90.00],
             ],
         ]);
 
@@ -234,7 +255,7 @@ class CreateSaleTest extends TestCase
         $this->postJson('/api/vendas', [
             'customer' => 'Fulano da Silva',
             'products' => [
-                ['id' => $product->id, 'quantity' => 1, 'unit_price' => 80.00],
+                ['id' => $product->id, 'quantity' => 1, 'unitPrice' => 80.00],
             ],
         ]);
 
