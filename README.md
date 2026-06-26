@@ -17,16 +17,6 @@ Este desafio tem como objetivo avaliar suas habilidades práticas em **Laravel (
     ```bash
     docker compose up -d
     ```
-2. Aguarde os containers inicializarem, depois rode as migrations:
-    ```bash
-    docker exec fone_ninja_erp_api php artisan migrate --seed
-    ```
-
-### Execuções subsequentes
-
-```bash
-docker compose up -d
-```
 
 ### Acessos
 
