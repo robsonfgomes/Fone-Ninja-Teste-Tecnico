@@ -98,4 +98,9 @@ describe('CancelSaleModal', () => {
 
     expect(toast.add).toHaveBeenCalledWith('Venda cancelada com sucesso!', 'success');
   });
+
+  it('renders no customer name when sale is null', () => {
+    const wrapper = mount(CancelSaleModal, { props: { sale: null } });
+    expect(wrapper.find('p').exists()).toBe(false);
+  });
 });
