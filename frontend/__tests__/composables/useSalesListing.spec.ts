@@ -14,6 +14,7 @@ const mockSale: Sale = {
   profit: 50,
   createdAt: '25/06/2026 10:00:00',
   updatedAt: '25/06/2026 10:00:00',
+  items: [],
 };
 
 const mockResponse: PaginatedResponse<Sale> = {

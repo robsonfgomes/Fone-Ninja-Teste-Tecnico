@@ -12,6 +12,7 @@ const mockPurchase: PurchaseOrder = {
   totalAmount: 500,
   createdAt: '25/06/2026 09:00:00',
   updatedAt: '25/06/2026 09:00:00',
+  items: [],
 };
 
 const mockResponse: PaginatedResponse<PurchaseOrder> = {

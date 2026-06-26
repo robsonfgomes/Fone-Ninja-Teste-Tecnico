@@ -5,6 +5,7 @@ import CreatePurchaseModal from '@/views/purchases/components/CreatePurchaseModa
 import { useToastStore } from '@/stores/toast.store';
 import { productsService } from '@/services/products.service';
 import { purchasesService } from '@/services/purchases.service';
+import type { PurchaseOrder } from '@/types/purchase';
 
 const mockModalInstance = {
   show: vi.fn(),
@@ -28,11 +29,13 @@ const mockListResponse = {
   meta: { current_page: 1, last_page: 1, from: 1, to: 1, total: 1, per_page: 100, links: [] },
 };
 
-const mockPurchaseResult = {
-  purchaseOrderId: 'abc-123',
+const mockPurchaseResult: PurchaseOrder = {
+  id: 'abc-123',
+  supplierName: 'Fornecedor ABC',
   totalAmount: 999,
   createdAt: '',
   updatedAt: '',
+  items: [],
 };
 
 describe('CreatePurchaseModal', () => {
