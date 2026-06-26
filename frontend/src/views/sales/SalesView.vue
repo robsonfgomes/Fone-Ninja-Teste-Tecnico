@@ -4,6 +4,7 @@ import { useSalesListing } from '@/composables/useSalesListing';
 import SalesTable from './components/SalesTable.vue';
 import CreateSaleModal from './components/CreateSaleModal.vue';
 import CancelSaleModal from './components/CancelSaleModal.vue';
+import SaleItemsModal from './components/SaleItemsModal.vue';
 import AppPagination from '@/components/AppPagination.vue';
 import AppButton from '@/components/AppButton.vue';
 import type { Sale } from '@/types/sale';
@@ -11,11 +12,18 @@ import type { Sale } from '@/types/sale';
 const { sales, meta, fetchSales } = useSalesListing();
 const createModal = ref<InstanceType<typeof CreateSaleModal>>();
 const cancelModal = ref<InstanceType<typeof CancelSaleModal>>();
+const itemsModal = ref<InstanceType<typeof SaleItemsModal>>();
 const selectedSale = ref<Sale | null>(null);
+const selectedSaleForItems = ref<Sale | null>(null);
 
 function openCancelModal(sale: Sale) {
   selectedSale.value = sale;
   cancelModal.value!.show();
+}
+
+function openItemsModal(sale: Sale) {
+  selectedSaleForItems.value = sale;
+  itemsModal.value!.show();
 }
 
 onMounted(() => fetchSales());
@@ -32,7 +40,8 @@ onMounted(() => fetchSales());
 
     <CreateSaleModal ref="createModal" @created="fetchSales()" />
     <CancelSaleModal ref="cancelModal" :sale="selectedSale" @cancelled="fetchSales()" />
-    <SalesTable :sales="sales" @cancel-sale="openCancelModal" />
+    <SaleItemsModal ref="itemsModal" :sale="selectedSaleForItems" />
+    <SalesTable :sales="sales" @cancel-sale="openCancelModal" @view-items="openItemsModal" />
     <div v-if="meta" class="d-flex justify-content-center mt-3">
       <AppPagination :meta="meta" @page-change="fetchSales" />
     </div>
