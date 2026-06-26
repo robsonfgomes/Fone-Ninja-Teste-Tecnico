@@ -51,7 +51,7 @@ async function handleSubmit() {
     emit('created');
     modal.value!.hide();
   } catch (error: any) {
-    if (error.response?.status === 422) {
+    if (error.response?.status === 422 && error.response?.data?.errors) {
       const messages = (Object.values(error.response.data.errors) as string[][]).flat().join('\n');
       toast.add(messages, 'danger');
     } else {

@@ -22,8 +22,10 @@ api.interceptors.response.use(
   },
   (error) => {
     useLoadingStore().stop();
-    const message = error.response?.data?.message ?? 'Erro inesperado. Tente novamente.';
-    useToastStore().add(message, 'error');
+    if (error.response?.status !== 422) {
+      const message = error.response?.data?.message ?? 'Erro inesperado. Tente novamente.';
+      useToastStore().add(message, 'error');
+    }
     return Promise.reject(error);
   },
 );
