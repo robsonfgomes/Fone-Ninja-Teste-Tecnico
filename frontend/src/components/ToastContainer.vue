@@ -10,7 +10,7 @@ const toast = useToastStore();
       <div v-for="t in toast.toasts" :key="t.id" class="toast show align-items-center border-0 mb-2"
         :class="`text-bg-${t.type}`" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
-          <div class="toast-body">{{ t.message }}</div>
+          <div class="toast-body" style="white-space: pre-line">{{ t.message }}</div>
           <button type="button" class="btn-close btn-close-white me-2 m-auto" aria-label="Fechar"
             @click="toast.remove(t.id)" />
         </div>

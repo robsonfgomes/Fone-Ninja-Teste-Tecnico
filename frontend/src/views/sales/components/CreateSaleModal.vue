@@ -22,14 +22,10 @@ const products = ref<Product[]>([]);
 const isCreating = ref(false);
 
 async function show() {
-  try {
-    const response = await productsService.listAll();
-    products.value = response.data;
-    productItemsEditor.value = [{ productId: '', quantity: '', unitPrice: '' }];
-    modal.value!.show();
-  } catch {
-    toast.add('Erro ao carregar produtos.', 'danger');
-  }
+  const response = await productsService.listAll();
+  products.value = response.data;
+  productItemsEditor.value = [{ productId: '', quantity: '', unitPrice: '' }];
+  modal.value!.show();
 }
 
 async function handleSubmit() {
@@ -50,13 +46,8 @@ async function handleSubmit() {
     toast.add('Venda cadastrada com sucesso!', 'success');
     emit('created');
     modal.value!.hide();
-  } catch (error: any) {
-    if (error.response?.status === 422 && error.response?.data?.errors) {
-      const messages = (Object.values(error.response.data.errors) as string[][]).flat().join('\n');
-      toast.add(messages, 'danger');
-    } else {
-      toast.add('Erro ao cadastrar venda.', 'danger');
-    }
+  } catch {
+    // interceptor handles the toast
   } finally {
     isCreating.value = false;
   }

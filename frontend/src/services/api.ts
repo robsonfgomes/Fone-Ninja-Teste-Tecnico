@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useLoadingStore } from '@/stores/loading.store';
 import { useToastStore } from '@/stores/toast.store';
+import { extractErrorMessage } from '@/utils/errors';
 
 export const api = axios.create({
   baseURL: '/api',
@@ -22,10 +23,7 @@ api.interceptors.response.use(
   },
   (error) => {
     useLoadingStore().stop();
-    if (error.response?.status !== 422) {
-      const message = error.response?.data?.message ?? 'Erro inesperado. Tente novamente.';
-      useToastStore().add(message, 'error');
-    }
+    useToastStore().add(extractErrorMessage(error), 'danger');
     return Promise.reject(error);
   },
 );

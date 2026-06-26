@@ -12,7 +12,7 @@ class CreateSaleRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'customer'                  => ['required', 'string', 'min:3'],
+            'customer'                  => ['required', 'string', 'min:3', 'max:255'],
             'products'                  => ['required', 'array', 'min:1'],
             'products.*.id'             => ['required', 'uuid', 'exists:products,id', 'distinct'],
             'products.*.quantity'       => ['required', 'integer', 'min:1'],
@@ -33,7 +33,7 @@ class CreateSaleRequest extends AbstractRequest
                 if ($product && $product->current_stock < $item['quantity']) {
                     $validator->errors()->add(
                         "products.{$index}.quantity",
-                        "Produto \"{$product->name}\": estoque insuficiente. Disponível: {$product->current_stock}.",
+                        "\"{$product->name}\": apenas {$product->current_stock} em estoque.",
                     );
                 }
             }

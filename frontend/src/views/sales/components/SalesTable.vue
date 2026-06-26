@@ -29,7 +29,7 @@ function statusClass(status: Sale['status']): string {
               <th>Cliente</th>
               <th class="text-center">Status</th>
               <th class="text-end">Total da Venda</th>
-              <th class="text-end">Lucro</th>
+              <th class="text-end">Lucro/Prejuizo</th>
             </tr>
           </thead>
           <tbody>

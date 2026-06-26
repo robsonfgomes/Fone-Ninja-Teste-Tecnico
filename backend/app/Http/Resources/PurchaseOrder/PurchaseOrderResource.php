@@ -5,6 +5,7 @@ namespace App\Http\Resources\PurchaseOrder;
 use App\Models\PurchaseOrder\PurchaseOrder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\PurchaseOrder\PurchaseOrderItemResource;
 
 class PurchaseOrderResource extends JsonResource
 {
@@ -17,6 +18,7 @@ class PurchaseOrderResource extends JsonResource
             'totalAmount'     => $this->totalAmount,
             'createdAt'       => $this->getCreatedAt(),
             'updatedAt'       => $this->getUpdatedAt(),
+            'items'           => PurchaseOrderItemResource::collection($this->items),
         ];
     }
 }
