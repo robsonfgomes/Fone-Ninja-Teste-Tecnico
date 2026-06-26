@@ -28,12 +28,7 @@ const nextPage = computed(() => props.meta.current_page + 1);
           &laquo;
         </button>
       </li>
-      <li
-        v-for="link in pageLinks"
-        :key="link.label"
-        class="page-item"
-        :class="{ active: link.active }"
-      >
+      <li v-for="link in pageLinks" :key="link.label" class="page-item" :class="{ active: link.active }">
         <button class="page-link" @click="emit('page-change', link.page)">
           {{ link.label }}
         </button>

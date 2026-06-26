@@ -52,49 +52,25 @@ const allSelected = computed(
     <tbody>
       <tr v-for="(item, index) in items" :key="index">
         <td>
-          <select
-            class="form-select"
-            v-model="item.productId"
-            required
-            @change="onProductChange(index)"
-          >
+          <select class="form-select" v-model="item.productId" required @change="onProductChange(index)">
             <option value="" disabled>Selecione...</option>
-            <option
-              v-for="product in availableProductsFor(index)"
-              :key="product.id"
-              :value="product.id"
-            >{{ product.name }}</option>
+            <option v-for="product in availableProductsFor(index)" :key="product.id" :value="product.id">
+              {{ product.name }}
+            </option>
           </select>
           <div class="invalid-feedback">Selecione um produto.</div>
         </td>
         <td>
-          <input
-            type="number"
-            class="form-control"
-            v-model.number="item.quantity"
-            required
-            min="1"
-          />
+          <input type="number" class="form-control" v-model.number="item.quantity" required min="1" />
           <div class="invalid-feedback">A quantidade deve ser pelo menos 1.</div>
         </td>
         <td>
-          <input
-            type="number"
-            class="form-control"
-            v-model="item.unitPrice"
-            required
-            min="0.01"
-            step="0.01"
-          />
+          <input type="number" class="form-control" v-model="item.unitPrice" required min="0.01" step="0.01" />
           <div class="invalid-feedback">O preço deve ser maior que zero.</div>
         </td>
         <td class="text-center">
-          <button
-            type="button"
-            class="btn btn-outline-danger btn-sm"
-            :disabled="items.length === 1"
-            @click="removeLine(index)"
-          >
+          <button type="button" class="btn btn-outline-danger btn-sm" :disabled="items.length === 1"
+            @click="removeLine(index)">
             <i class="bi bi-trash"></i>
           </button>
         </td>
@@ -102,12 +78,7 @@ const allSelected = computed(
     </tbody>
   </table>
 
-  <button
-    type="button"
-    class="btn btn-outline-primary btn-sm"
-    :disabled="allSelected"
-    @click="addLine"
-  >
+  <button type="button" class="btn btn-outline-primary btn-sm" :disabled="allSelected" @click="addLine">
     <i class="bi bi-plus-lg me-1"></i> Adicionar produto
   </button>
 </template>

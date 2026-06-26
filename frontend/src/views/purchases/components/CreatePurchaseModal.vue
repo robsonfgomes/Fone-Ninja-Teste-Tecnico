@@ -23,7 +23,7 @@ const isCreating = ref(false);
 
 async function show() {
   try {
-    const response = await productsService.list(1, 100);
+    const response = await productsService.listAll();
     products.value = response.data;
     items.value = [{ productId: '', quantity: 1, unitPrice: '' }];
     modal.value!.show();

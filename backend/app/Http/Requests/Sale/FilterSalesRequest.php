@@ -12,6 +12,7 @@ class FilterSalesRequest extends AbstractFilterRequest
         return new FilterSalesDto(
             page: $this->page(),
             perPage: $this->perPage(),
+            isToPaginate: $this->isToPaginate(),
         );
     }
 }

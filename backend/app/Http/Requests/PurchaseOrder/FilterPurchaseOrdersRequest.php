@@ -12,6 +12,7 @@ class FilterPurchaseOrdersRequest extends AbstractFilterRequest
         return new FilterPurchaseOrdersDto(
             page: $this->page(),
             perPage: $this->perPage(),
+            isToPaginate: $this->isToPaginate(),
         );
     }
 }

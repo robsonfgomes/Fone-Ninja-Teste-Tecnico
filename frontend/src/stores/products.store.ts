@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { productsService } from '@/services/products.service';
 import type { Product } from '@/types/product';
 import type { ProductFormData } from '@/types/product';
-import type { PaginationMeta } from '@/types/pagination';
+import type { PaginationMeta, PaginationOptions } from '@/types/pagination';
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref<Product[]>([]);
@@ -11,7 +11,8 @@ export const useProductsStore = defineStore('products', () => {
   const isCreating = ref(false);
 
   async function fetchProducts(page = 1): Promise<void> {
-    const response = await productsService.list(page);
+    const options: PaginationOptions = { page };
+    const response = await productsService.list(options);
     products.value = response.data;
     meta.value = response.meta;
   }

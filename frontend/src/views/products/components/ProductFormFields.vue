@@ -8,7 +8,7 @@ const productModel = defineModel<ProductFormData>({ required: true });
   <div class="mb-3">
     <label for="product-name" class="form-label">Nome</label>
     <input id="product-name" name="name" type="text" class="form-control" v-model="productModel.name" required
-      minlength="3" />
+      minlength="3" maxlength="255" />
     <div class="invalid-feedback">O nome deve ter no mínimo 3 caracteres.</div>
   </div>
 

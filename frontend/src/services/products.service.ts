@@ -1,11 +1,19 @@
 import { api } from './api';
 import type { Product, CreateProductPayload } from '@/types/product';
-import type { PaginatedResponse } from '@/types/pagination';
+import type { PaginatedResponse, CollectionResponse, PaginationOptions } from '@/types/pagination';
 
 export const productsService = {
-  async list(page = 1, perPage = 10): Promise<PaginatedResponse<Product>> {
+  async list(options?: PaginationOptions): Promise<PaginatedResponse<Product>> {
     const response = await api.get<PaginatedResponse<Product>>('/produtos', {
-      params: { page, per_page: perPage },
+      params: options,
+    });
+
+    return response.data;
+  },
+
+  async listAll(): Promise<CollectionResponse<Product>> {
+    const response = await api.get<CollectionResponse<Product>>('/produtos', {
+      params: { isToPaginate: false },
     });
 
     return response.data;

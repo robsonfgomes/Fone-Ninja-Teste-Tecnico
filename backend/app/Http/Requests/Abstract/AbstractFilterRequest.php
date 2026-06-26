@@ -4,11 +4,19 @@ namespace App\Http\Requests\Abstract;
 
 abstract class AbstractFilterRequest extends AbstractRequest
 {
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('isToPaginate')) {
+            $this->merge(['isToPaginate' => filter_var($this->isToPaginate, FILTER_VALIDATE_BOOLEAN)]);
+        }
+    }
+
     public function rules(): array
     {
         return [
-            'page'     => ['integer', 'min:1'],
-            'per_page' => ['integer', 'min:1', 'max:100'],
+            'page'          => ['integer', 'min:1'],
+            'perPage'       => ['integer', 'min:1', 'max:100'],
+            'isToPaginate'  => ['boolean'],
         ];
     }
 
@@ -19,6 +27,12 @@ abstract class AbstractFilterRequest extends AbstractRequest
 
     protected function perPage(): int
     {
-        return $this->validated('per_page', 10);
+        return $this->validated('perPage', 10);
+    }
+
+
+    protected function isToPaginate(): bool
+    {
+        return $this->validated('isToPaginate', true);
     }
 }

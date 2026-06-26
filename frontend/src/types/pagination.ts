@@ -19,3 +19,12 @@ export interface PaginatedResponse<T> {
   data: T[];
   meta: PaginationMeta;
 }
+
+export interface CollectionResponse<T> {
+  data: T[];
+}
+
+export interface PaginationOptions {
+  page?: number;
+  perPage?: number;
+}

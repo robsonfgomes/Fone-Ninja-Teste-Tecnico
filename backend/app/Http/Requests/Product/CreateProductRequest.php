@@ -10,7 +10,7 @@ class CreateProductRequest extends AbstractRequest
     public function rules(): array
     {
         return [
-            'name'          => ['required', 'string', 'min:3'],
+            'name'          => ['required', 'string', 'min:3', 'max:255'],
             'selling_price' => ['required', 'numeric', 'gt:0'],
             'initial_stock' => ['sometimes', 'integer', 'min:0'],
         ];

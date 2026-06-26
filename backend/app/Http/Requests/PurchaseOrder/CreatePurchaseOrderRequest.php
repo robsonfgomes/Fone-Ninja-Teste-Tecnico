@@ -15,7 +15,7 @@ class CreatePurchaseOrderRequest extends AbstractRequest
             'products'              => ['required', 'array', 'min:1'],
             'products.*.id'         => ['required', 'uuid', 'exists:products,id', 'distinct'],
             'products.*.quantity'   => ['required', 'integer', 'min:1'],
-            'products.*.unit_price' => ['required', 'numeric', 'gt:0'],
+            'products.*.unitPrice' => ['required', 'numeric', 'gt:0'],
         ];
     }
 
@@ -25,7 +25,7 @@ class CreatePurchaseOrderRequest extends AbstractRequest
             fn(array $item) => new PurchaseOrderItemDto(
                 productId: $item['id'],
                 quantity: $item['quantity'],
-                unitPrice: (float) $item['unit_price'],
+                unitPrice: (float) $item['unitPrice'],
             ),
             $this->validated('products'),
         );

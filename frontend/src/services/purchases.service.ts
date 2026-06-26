@@ -1,12 +1,13 @@
 import { api } from './api';
 import type { PurchaseOrder, CreatePurchasePayload } from '@/types/purchase';
-import type { PaginatedResponse } from '@/types/pagination';
+import type { PaginatedResponse, PaginationOptions } from '@/types/pagination';
 
 export const purchasesService = {
-  async list(page = 1): Promise<PaginatedResponse<PurchaseOrder>> {
+  async list(options?: PaginationOptions): Promise<PaginatedResponse<PurchaseOrder>> {
     const response = await api.get<PaginatedResponse<PurchaseOrder>>('/compras', {
-      params: { page },
+      params: options,
     });
+
     return response.data;
   },
 
