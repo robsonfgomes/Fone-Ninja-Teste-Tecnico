@@ -15,4 +15,8 @@ export const salesService = {
     const response = await api.post<{ data: Sale }>('/vendas', payload);
     return response.data.data;
   },
+
+  async cancel(id: string): Promise<void> {
+    await api.patch(`/vendas/${id}`, { status: 'Cancelled' });
+  },
 };
