@@ -7,6 +7,7 @@ export interface PurchaseOrder {
   totalAmount: number;
   createdAt: string;
   updatedAt: string;
+  items: PurchaseOrderItem[];
 }
 
 export interface PurchaseOrderItem {

@@ -26,6 +26,7 @@ const mockSale: Sale = {
   profit: 100,
   createdAt: '26/06/2026 10:00:00',
   updatedAt: '26/06/2026 10:00:00',
+  items: [],
 };
 
 describe('CancelSaleModal', () => {
