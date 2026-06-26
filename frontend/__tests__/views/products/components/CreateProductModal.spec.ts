@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import { setActivePinia, createPinia } from 'pinia';
 import CreateProductModal from '@/views/products/components/CreateProductModal.vue';
-import { useProductsStore } from '@/stores/products.store';
 import { useToastStore } from '@/stores/toast.store';
 import { productsService } from '@/services/products.service';
 
@@ -28,24 +27,10 @@ const mockProduct = {
   updatedAt: '',
 };
 
-const mockListResponse = {
-  data: [],
-  meta: {
-    current_page: 1,
-    last_page: 1,
-    from: 1,
-    to: 0,
-    total: 0,
-    per_page: 10,
-    links: [],
-  },
-};
-
 describe('CreateProductModal', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
-    vi.mocked(productsService.list).mockResolvedValue(mockListResponse);
   });
 
   it('delegates show() to the AppModal', async () => {
@@ -76,7 +61,7 @@ describe('CreateProductModal', () => {
     expect(productsService.create).not.toHaveBeenCalled();
   });
 
-  it('calls store.createProduct with correct payload when form is valid', async () => {
+  it('calls productsService.create with correct payload when form is valid', async () => {
     vi.mocked(productsService.create).mockResolvedValue(mockProduct);
     const wrapper = mount(CreateProductModal);
 
@@ -89,6 +74,18 @@ describe('CreateProductModal', () => {
       name: 'iPhone',
       selling_price: 999,
     });
+  });
+
+  it('emits "created" after a successful submit', async () => {
+    vi.mocked(productsService.create).mockResolvedValue(mockProduct);
+    const wrapper = mount(CreateProductModal);
+
+    await wrapper.find('input[name="name"]').setValue('iPhone');
+    await wrapper.find('input[name="sellingPrice"]').setValue('999');
+    await wrapper.find('button.btn-success').trigger('click');
+    await flushPromises();
+
+    expect(wrapper.emitted('created')).toHaveLength(1);
   });
 
   it('hides the modal after a successful submit', async () => {
@@ -123,7 +120,6 @@ describe('CreateProductModal', () => {
     await wrapper.find('input[name="name"]').setValue('iPhone');
     await wrapper.find('input[name="sellingPrice"]').setValue('999');
 
-    // Simulate Bootstrap hiding the modal natively
     const modalEl = wrapper.find('.modal').element;
     modalEl.dispatchEvent(new Event('hidden.bs.modal'));
     await wrapper.vm.$nextTick();
