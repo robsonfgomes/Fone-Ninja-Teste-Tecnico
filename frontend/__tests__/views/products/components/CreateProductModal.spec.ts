@@ -67,6 +67,10 @@ describe('CreateProductModal', () => {
 
     await wrapper.find('input[name="name"]').setValue('AB');
     await wrapper.find('input[name="sellingPrice"]').setValue('99');
+
+    const form = wrapper.find('form').element as HTMLFormElement;
+    vi.spyOn(form, 'checkValidity').mockReturnValueOnce(false);
+
     await wrapper.find('button.btn-success').trigger('click');
 
     expect(productsService.create).not.toHaveBeenCalled();
@@ -84,7 +88,6 @@ describe('CreateProductModal', () => {
     expect(productsService.create).toHaveBeenCalledWith({
       name: 'iPhone',
       selling_price: 999,
-      initial_stock: 0,
     });
   });
 

@@ -26,14 +26,16 @@ const cancelledSale: Sale = {
 };
 
 describe('SalesTable', () => {
-  it('shows the cancel button only for Active sales', () => {
+  it('shows the cancel button disabled only for Cancelled sales', () => {
     const wrapper = mount(SalesTable, {
       props: { sales: [activeSale, cancelledSale] },
     });
 
     const rows = wrapper.findAll('tbody tr');
     expect(rows[0].find('button.btn-danger').exists()).toBe(true);
-    expect(rows[1].find('button.btn-danger').exists()).toBe(false);
+    expect(rows[0].find('button.btn-danger').attributes('disabled')).toBeUndefined();
+    expect(rows[1].find('button.btn-danger').exists()).toBe(true);
+    expect(rows[1].find('button.btn-danger').attributes('disabled')).toBeDefined();
   });
 
   it('emits cancel-sale with the sale when the cancel button is clicked', async () => {

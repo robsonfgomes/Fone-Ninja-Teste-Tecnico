@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ProductItemsEditor from '@/components/ProductItemsEditor.vue';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/order';
+import type { ProductItemEditor } from '@/types/order';
 
 const mockProducts: Product[] = [
   { id: '1', name: 'iPhone', sellingPrice: 999, currentStock: 5, averageCost: null, createdAt: '', updatedAt: '' },
@@ -18,19 +18,19 @@ describe('ProductItemsEditor', () => {
   });
 
   it('adds a row with default values when the add button is clicked', async () => {
-    const items: ProductOrderItem[] = [];
+    const items: ProductItemEditor[] = [];
     const wrapper = mount(ProductItemsEditor, {
       props: { modelValue: items, products: mockProducts },
     });
     await wrapper.find('button').trigger('click');
     expect(items).toHaveLength(1);
-    expect(items[0]).toEqual({ productId: '', quantity: 1, unitPrice: '' });
+    expect(items[0]).toEqual({ productId: '', quantity: '', unitPrice: '' });
   });
 
   it('removes the first row when its trash button is clicked (2 rows)', async () => {
-    const items: ProductOrderItem[] = [
-      { productId: '1', quantity: 1, unitPrice: '999' },
-      { productId: '2', quantity: 2, unitPrice: '799' },
+    const items: ProductItemEditor[] = [
+      { productId: '1', quantity: '1', unitPrice: '999' },
+      { productId: '2', quantity: '2', unitPrice: '799' },
     ];
     const wrapper = mount(ProductItemsEditor, {
       props: { modelValue: items, products: mockProducts },
@@ -43,7 +43,7 @@ describe('ProductItemsEditor', () => {
   it('disables the trash button when there is only one row', () => {
     const wrapper = mount(ProductItemsEditor, {
       props: {
-        modelValue: [{ productId: '1', quantity: 1, unitPrice: '999' }],
+        modelValue: [{ productId: '1', quantity: '1', unitPrice: '999' }],
         products: mockProducts,
       },
     });
@@ -54,8 +54,8 @@ describe('ProductItemsEditor', () => {
     const wrapper = mount(ProductItemsEditor, {
       props: {
         modelValue: [
-          { productId: '1', quantity: 1, unitPrice: '' },
-          { productId: '', quantity: 1, unitPrice: '' },
+          { productId: '1', quantity: '1', unitPrice: '' },
+          { productId: '', quantity: '1', unitPrice: '' },
         ],
         products: mockProducts,
       },
@@ -66,19 +66,19 @@ describe('ProductItemsEditor', () => {
     expect(secondRowOptionValues).toContain('2');
   });
 
-  it('pre-fills unitPrice with sellingPrice when autoFillPrice is true', async () => {
-    const items: ProductOrderItem[] = [{ productId: '', quantity: 1, unitPrice: '' }];
+  it('does not auto-fill unitPrice when a product is selected', async () => {
+    const items: ProductItemEditor[] = [{ productId: '', quantity: '', unitPrice: '' }];
     const wrapper = mount(ProductItemsEditor, {
-      props: { modelValue: items, products: mockProducts, autoFillPrice: true },
+      props: { modelValue: items, products: mockProducts },
     });
     await wrapper.find('select').setValue('1');
-    expect(items[0].unitPrice).toBe('999');
+    expect(items[0].unitPrice).toBe('');
   });
 
   it('does not pre-fill unitPrice when autoFillPrice is false', async () => {
-    const items: ProductOrderItem[] = [{ productId: '', quantity: 1, unitPrice: '' }];
+    const items: ProductItemEditor[] = [{ productId: '', quantity: '', unitPrice: '' }];
     const wrapper = mount(ProductItemsEditor, {
-      props: { modelValue: items, products: mockProducts, autoFillPrice: false },
+      props: { modelValue: items, products: mockProducts },
     });
     await wrapper.find('select').setValue('1');
     expect(items[0].unitPrice).toBe('');
@@ -88,8 +88,8 @@ describe('ProductItemsEditor', () => {
     const wrapper = mount(ProductItemsEditor, {
       props: {
         modelValue: [
-          { productId: '1', quantity: 1, unitPrice: '999' },
-          { productId: '2', quantity: 1, unitPrice: '799' },
+          { productId: '1', quantity: '1', unitPrice: '999' },
+          { productId: '2', quantity: '1', unitPrice: '799' },
         ],
         products: mockProducts,
       },

@@ -62,17 +62,17 @@ describe('CancelSaleModal', () => {
     vi.mocked(salesService.cancel).mockResolvedValue(undefined);
     const wrapper = mount(CancelSaleModal, { props: { sale: mockSale } });
 
-    await wrapper.find('button.btn-danger').trigger('click');
+    await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
 
-    expect(salesService.cancel).toHaveBeenCalledWith('99');
+    expect(salesService.cancel).toHaveBeenCalledWith('99', 'Cancelled');
   });
 
   it('emits cancelled after a successful cancel', async () => {
     vi.mocked(salesService.cancel).mockResolvedValue(undefined);
     const wrapper = mount(CancelSaleModal, { props: { sale: mockSale } });
 
-    await wrapper.find('button.btn-danger').trigger('click');
+    await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
 
     expect(wrapper.emitted('cancelled')).toBeTruthy();
@@ -82,7 +82,7 @@ describe('CancelSaleModal', () => {
     vi.mocked(salesService.cancel).mockResolvedValue(undefined);
     const wrapper = mount(CancelSaleModal, { props: { sale: mockSale } });
 
-    await wrapper.find('button.btn-danger').trigger('click');
+    await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
 
     expect(mockModalInstance.hide).toHaveBeenCalledOnce();
@@ -94,7 +94,7 @@ describe('CancelSaleModal', () => {
     const toast = useToastStore();
     vi.spyOn(toast, 'add');
 
-    await wrapper.find('button.btn-danger').trigger('click');
+    await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
 
     expect(toast.add).toHaveBeenCalledWith('Venda cancelada com sucesso!', 'success');

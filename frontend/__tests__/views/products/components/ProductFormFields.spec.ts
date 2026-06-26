@@ -51,7 +51,7 @@ describe('ProductFormFields', () => {
     const modelValue: ProductFormData = { name: 'iPhone', sellingPrice: '' };
     const wrapper = mount(ProductFormFields, { props: { modelValue } });
     await wrapper.find('input[name="sellingPrice"]').setValue('999.99');
-    expect(modelValue.sellingPrice).toBe('999.99');
+    expect(modelValue.sellingPrice).toBe(999.99);
   });
 
   it('sets sellingPrice to empty string when price input is cleared', async () => {

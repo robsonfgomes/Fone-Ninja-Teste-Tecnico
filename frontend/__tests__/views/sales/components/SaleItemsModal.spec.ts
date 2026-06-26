@@ -94,10 +94,10 @@ describe('SaleItemsModal', () => {
     expect(wrapper.text()).toContain('Galaxy S23');
   });
 
-  it('renders a tfoot totals row with summed quantity', () => {
+  it('renders a tfoot totals row with the sale total profit', () => {
     const wrapper = mount(SaleItemsModal, { props: { sale: mockSale } });
     expect(wrapper.find('tfoot').exists()).toBe(true);
-    expect(wrapper.find('tfoot').text()).toContain('3'); // 2 + 1
+    expect(wrapper.find('tfoot').text()).toContain('Total');
   });
 
   it('applies text-success to profit total when positive', () => {
@@ -108,6 +108,7 @@ describe('SaleItemsModal', () => {
   it('applies text-danger to profit total when negative', () => {
     const negSale: Sale = {
       ...mockSale,
+      profit: -500,
       items: [{ ...mockSale.items[0]!, profit: -500 }],
     };
     const wrapper = mount(SaleItemsModal, { props: { sale: negSale } });

@@ -43,7 +43,7 @@ describe('productsService.create', () => {
 describe('productsService.list', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  it('calls GET /produtos with page and per_page params', async () => {
+  it('calls GET /produtos with page and perPage params', async () => {
     const mockResponse = {
       data: [],
       meta: {
@@ -53,10 +53,10 @@ describe('productsService.list', () => {
     };
     vi.mocked(api.get).mockResolvedValue({ data: mockResponse });
 
-    await productsService.list(1, 100);
+    await productsService.list({ page: 1, perPage: 100 });
 
     expect(api.get).toHaveBeenCalledWith('/produtos', {
-      params: { page: 1, per_page: 100 },
+      params: { page: 1, perPage: 100 },
     });
   });
 });

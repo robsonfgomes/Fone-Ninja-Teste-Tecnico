@@ -43,12 +43,12 @@ describe('usePurchasesListing', () => {
   it('passes page 1 by default', async () => {
     const { fetchPurchases } = usePurchasesListing();
     await fetchPurchases();
-    expect(purchasesService.list).toHaveBeenCalledWith(1);
+    expect(purchasesService.list).toHaveBeenCalledWith({ page: 1 });
   });
 
   it('passes the given page number to the service', async () => {
     const { fetchPurchases } = usePurchasesListing();
     await fetchPurchases(3);
-    expect(purchasesService.list).toHaveBeenCalledWith(3);
+    expect(purchasesService.list).toHaveBeenCalledWith({ page: 3 });
   });
 });

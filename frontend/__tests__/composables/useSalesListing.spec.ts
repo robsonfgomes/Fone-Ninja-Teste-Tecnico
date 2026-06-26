@@ -45,12 +45,12 @@ describe('useSalesListing', () => {
   it('passes page 1 by default', async () => {
     const { fetchSales } = useSalesListing();
     await fetchSales();
-    expect(salesService.list).toHaveBeenCalledWith(1);
+    expect(salesService.list).toHaveBeenCalledWith({ page: 1 });
   });
 
   it('passes the given page number to the service', async () => {
     const { fetchSales } = useSalesListing();
     await fetchSales(3);
-    expect(salesService.list).toHaveBeenCalledWith(3);
+    expect(salesService.list).toHaveBeenCalledWith({ page: 3 });
   });
 });

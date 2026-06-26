@@ -46,13 +46,13 @@ describe('useProductsStore', () => {
   it('passes page 1 by default', async () => {
     const store = useProductsStore();
     await store.fetchProducts();
-    expect(productsService.list).toHaveBeenCalledWith(1);
+    expect(productsService.list).toHaveBeenCalledWith({ page: 1 });
   });
 
   it('passes the given page number to the service', async () => {
     const store = useProductsStore();
     await store.fetchProducts(3);
-    expect(productsService.list).toHaveBeenCalledWith(3);
+    expect(productsService.list).toHaveBeenCalledWith({ page: 3 });
   });
 });
 
@@ -71,7 +71,6 @@ describe('createProduct', () => {
     expect(productsService.create).toHaveBeenCalledWith({
       name: 'iPhone',
       selling_price: 999,
-      initial_stock: 0,
     });
   });
 

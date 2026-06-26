@@ -24,11 +24,6 @@ const mockProducts = [
   { id: '1', name: 'iPhone', sellingPrice: 999, currentStock: 5, averageCost: null, createdAt: '', updatedAt: '' },
 ];
 
-const mockListResponse = {
-  data: mockProducts,
-  meta: { current_page: 1, last_page: 1, from: 1, to: 1, total: 1, per_page: 100, links: [] },
-};
-
 const mockPurchaseResult: PurchaseOrder = {
   id: 'abc-123',
   supplierName: 'Fornecedor ABC',
@@ -42,14 +37,14 @@ describe('CreatePurchaseModal', () => {
   beforeEach(() => {
     setActivePinia(createPinia());
     vi.clearAllMocks();
-    vi.mocked(productsService.list).mockResolvedValue(mockListResponse);
+    vi.mocked(productsService.listAll).mockResolvedValue({ data: mockProducts });
   });
 
-  it('fetches products with per_page=100 and delegates show() to AppModal', async () => {
+  it('fetches all products and delegates show() to AppModal', async () => {
     const wrapper = mount(CreatePurchaseModal);
     await (wrapper.vm as unknown as { show(): void }).show();
     await flushPromises();
-    expect(productsService.list).toHaveBeenCalledWith(1, 100);
+    expect(productsService.listAll).toHaveBeenCalledOnce();
     expect(mockModalInstance.show).toHaveBeenCalledOnce();
   });
 
@@ -78,6 +73,7 @@ describe('CreatePurchaseModal', () => {
 
     await wrapper.find('input[name="supplierName"]').setValue('Fornecedor ABC');
     await wrapper.find('select').setValue('1');
+    await wrapper.find('input[min="1"]').setValue('1');
     await wrapper.find('input[min="0.01"]').setValue('999');
     await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
@@ -96,6 +92,7 @@ describe('CreatePurchaseModal', () => {
 
     await wrapper.find('input[name="supplierName"]').setValue('Fornecedor ABC');
     await wrapper.find('select').setValue('1');
+    await wrapper.find('input[min="1"]').setValue('1');
     await wrapper.find('input[min="0.01"]').setValue('999');
     await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
@@ -111,6 +108,7 @@ describe('CreatePurchaseModal', () => {
 
     await wrapper.find('input[name="supplierName"]').setValue('Fornecedor ABC');
     await wrapper.find('select').setValue('1');
+    await wrapper.find('input[min="1"]').setValue('1');
     await wrapper.find('input[min="0.01"]').setValue('999');
     await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
@@ -128,6 +126,7 @@ describe('CreatePurchaseModal', () => {
 
     await wrapper.find('input[name="supplierName"]').setValue('Fornecedor ABC');
     await wrapper.find('select').setValue('1');
+    await wrapper.find('input[min="1"]').setValue('1');
     await wrapper.find('input[min="0.01"]').setValue('999');
     await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
@@ -145,6 +144,7 @@ describe('CreatePurchaseModal', () => {
 
     await wrapper.find('input[name="supplierName"]').setValue('Fornecedor ABC');
     await wrapper.find('select').setValue('1');
+    await wrapper.find('input[min="1"]').setValue('1');
     await wrapper.find('input[min="0.01"]').setValue('999');
     await wrapper.find('button.btn-success').trigger('click');
     await flushPromises();
@@ -172,7 +172,7 @@ describe('CreatePurchaseModal', () => {
   });
 
   it('shows an error toast when products fail to load on show()', async () => {
-    vi.mocked(productsService.list).mockRejectedValueOnce(new Error('Network error'));
+    vi.mocked(productsService.listAll).mockRejectedValueOnce(new Error('Network error'));
     const wrapper = mount(CreatePurchaseModal);
     const toast = useToastStore();
     vi.spyOn(toast, 'add');

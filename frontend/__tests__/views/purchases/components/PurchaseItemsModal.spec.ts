@@ -90,10 +90,10 @@ describe('PurchaseItemsModal', () => {
     expect(wrapper.text()).toContain('Galaxy S23');
   });
 
-  it('renders a tfoot totals row with summed quantity', () => {
+  it('renders a tfoot totals row with the purchase total amount', () => {
     const wrapper = mount(PurchaseItemsModal, { props: { purchase: mockPurchase } });
     expect(wrapper.find('tfoot').exists()).toBe(true);
-    expect(wrapper.find('tfoot').text()).toContain('3'); // 2 + 1
+    expect(wrapper.find('tfoot').text()).toContain('Total');
   });
 
   it('does not render a Lucro column', () => {

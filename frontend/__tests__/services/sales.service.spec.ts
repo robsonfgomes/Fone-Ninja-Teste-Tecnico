@@ -16,7 +16,7 @@ describe('salesService.cancel', () => {
   it('calls PATCH /vendas/{id} with status Cancelled', async () => {
     vi.mocked(api.patch).mockResolvedValue({});
 
-    await salesService.cancel('42');
+    await salesService.cancel('42', 'Cancelled');
 
     expect(api.patch).toHaveBeenCalledWith('/vendas/42', { status: 'Cancelled' });
   });
