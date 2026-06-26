@@ -50,13 +50,9 @@ function statusClass(status: Sale['status']): string {
                 {{ formatCurrency(sale.profit) }}
               </td>
               <td class="text-center">
-                <AppButton
-                  v-if="sale.status === 'Active'"
-                  variant="danger"
-                  size="sm"
-                  @click="emit('cancel-sale', sale)"
-                >
-                  Cancelar
+                <AppButton v-if="sale.status === 'Active'" variant="danger" size="sm"
+                  @click="emit('cancel-sale', sale)">
+                  <i class="bi bi-ban"></i>
                 </AppButton>
               </td>
             </tr>

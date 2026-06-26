@@ -5,7 +5,6 @@ namespace App\Http\Resources\PurchaseOrder;
 use App\Models\PurchaseOrder\PurchaseOrder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\PurchaseOrder\PurchaseOrderItemResource;
 
 class PurchaseOrderResource extends JsonResource
 {

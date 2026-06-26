@@ -19,6 +19,7 @@ class SaleResource extends JsonResource
             'profit'       => $this->profit,
             'createdAt'    => $this->getCreatedAt(),
             'updatedAt'    => $this->getUpdatedAt(),
+            'items'        => SaleItemResource::collection($this->items),
         ];
     }
 }

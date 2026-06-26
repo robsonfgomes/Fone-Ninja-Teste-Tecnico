@@ -26,7 +26,7 @@ onMounted(() => fetchSales());
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0">Vendas</h2>
       <AppButton variant="primary" @click="createModal!.show()">
-        Registrar Venda
+        <i class="bi bi-plus-lg me-1"></i> Registrar Venda
       </AppButton>
     </div>
 

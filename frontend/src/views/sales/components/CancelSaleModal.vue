@@ -21,7 +21,7 @@ async function handleConfirm() {
 
   isCancelling.value = true;
   try {
-    await salesService.cancel(props.sale.id);
+    await salesService.cancel(props.sale.id, 'Cancelled');
     toast.add('Venda cancelada com sucesso!', 'success');
     emit('cancelled');
     modal.value!.hide();
@@ -56,7 +56,7 @@ defineExpose({ show, hide });
       <AppButton variant="secondary" :disabled="isCancelling" @click="modal!.hide()">
         Voltar
       </AppButton>
-      <AppButton variant="danger" :loading="isCancelling" @click="handleConfirm">
+      <AppButton variant="success" :loading="isCancelling" @click="handleConfirm">
         Confirmar
       </AppButton>
     </template>

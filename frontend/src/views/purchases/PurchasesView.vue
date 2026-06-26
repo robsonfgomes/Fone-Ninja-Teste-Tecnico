@@ -17,7 +17,7 @@ onMounted(() => fetchPurchases());
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0">Compras</h2>
       <AppButton @click="createModalRef!.show()">
-        <i class="bi bi-plus-lg me-1"></i> Nova Compra
+        <i class="bi bi-plus-lg me-1"></i> Registrar Compra
       </AppButton>
     </div>
 

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @property string $product_id
  * @property int $quantity
  * @property string $unit_price
+ * @property float $totalAmount
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  */

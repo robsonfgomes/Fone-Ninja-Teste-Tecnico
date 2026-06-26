@@ -1,4 +1,5 @@
 import type { OrderItemPayload } from '@/types/order';
+import type { Product } from '@/types/product';
 
 export type SaleStatus = 'Active' | 'Cancelled';
 
@@ -10,6 +11,17 @@ export interface Sale {
   profit: number;
   createdAt: string;
   updatedAt: string;
+  items: SaleItem[];
+}
+
+export interface SaleItem {
+  id: string;
+  quantity: number;
+  unitPrice: number;
+  totalAmount: number;
+  createdAt: string;
+  updatedAt: string;
+  product: Product;
 }
 
 export interface CreateSalePayload {

@@ -1,5 +1,5 @@
 import { api } from './api';
-import type { Sale, CreateSalePayload } from '@/types/sale';
+import type { Sale, CreateSalePayload, SaleStatus } from '@/types/sale';
 import type { PaginatedResponse, PaginationOptions } from '@/types/pagination';
 
 export const salesService = {
@@ -16,7 +16,7 @@ export const salesService = {
     return response.data.data;
   },
 
-  async cancel(id: string): Promise<void> {
-    await api.patch(`/vendas/${id}`, { status: 'Cancelled' });
+  async cancel(id: string, status: SaleStatus): Promise<void> {
+    await api.patch(`/vendas/${id}`, { status });
   },
 };
