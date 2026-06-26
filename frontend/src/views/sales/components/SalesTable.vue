@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import type { Sale } from '@/types/sale';
 import { formatCurrency } from '@/utils/format';
+import AppButton from '@/components/AppButton.vue';
 
 defineProps<{
   sales: Sale[];
+}>();
+
+const emit = defineEmits<{
+  'cancel-sale': [sale: Sale];
 }>();
 
 function statusLabel(status: Sale['status']): string {
@@ -30,6 +35,7 @@ function statusClass(status: Sale['status']): string {
               <th class="text-center">Status</th>
               <th class="text-end">Total da Venda</th>
               <th class="text-end">Lucro/Prejuizo</th>
+              <th class="text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +48,16 @@ function statusClass(status: Sale['status']): string {
               <td class="text-end">{{ formatCurrency(sale.totalAmount) }}</td>
               <td class="text-end" :class="sale.profit >= 0 ? 'text-success' : 'text-danger'">
                 {{ formatCurrency(sale.profit) }}
+              </td>
+              <td class="text-center">
+                <AppButton
+                  v-if="sale.status === 'Active'"
+                  variant="danger"
+                  size="sm"
+                  @click="emit('cancel-sale', sale)"
+                >
+                  Cancelar
+                </AppButton>
               </td>
             </tr>
           </tbody>
