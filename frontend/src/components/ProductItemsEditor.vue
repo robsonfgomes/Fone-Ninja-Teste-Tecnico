@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import type { Product } from '@/types/product';
 import type { ProductItemEditor } from '@/types/order';
+import { formatCurrency } from '@/utils/format';
 
 const props = defineProps<{
   products: Product[];
@@ -9,12 +10,28 @@ const props = defineProps<{
 
 const items = defineModel<ProductItemEditor[]>({ required: true });
 
+const productsById = computed(() =>
+  new Map(props.products.map(p => [p.id, p]))
+);
+
 function addLine() {
   items.value.push({ productId: '', quantity: '', unitPrice: '' });
 }
 
 function removeLine(index: number) {
   items.value.splice(index, 1);
+}
+
+function averageCostFor(index: number): string {
+  const product = productsById.value.get(items.value[index]?.productId ?? '');
+  if (!product || product.averageCost === null) return '-';
+  return formatCurrency(product.averageCost);
+}
+
+function avaliableStock(index: number): string {
+  const product = productsById.value.get(items.value[index]?.productId ?? '');
+  if (!product) return '-';
+  return String(product.currentStock);
 }
 
 function availableProductsFor(index: number): Product[] {
@@ -34,9 +51,11 @@ const allSelected = computed(
   <table v-if="items.length > 0" class="table table-bordered align-middle mb-3">
     <thead>
       <tr>
-        <th style="width: 50%;">Produto</th>
-        <th style="width: 20%;">Quantidade</th>
-        <th style="width: 20%;">Preço Unitário</th>
+        <th style="width: 30%;">Produto</th>
+        <th style="width: 10%;" class="text-center" title="Custo Médio do Produto">C. Médio</th>
+        <th style="width: 10%;" class="text-center" title="Quantidade em Estoque do Produto">Qt. Estoque</th>
+        <th style="width: 20%;" class="text-center">Quantidade</th>
+        <th style="width: 20%;" class="text-center">Preço Unitário</th>
         <th style="width: 10%;"></th>
       </tr>
     </thead>
@@ -51,6 +70,8 @@ const allSelected = computed(
           </select>
           <div class="invalid-feedback">Selecione um produto.</div>
         </td>
+        <td class="text-center">{{ averageCostFor(index) }}</td>
+        <td class="text-center">{{ avaliableStock(index) }}</td>
         <td>
           <input type="number" class="form-control" v-model.number="item.quantity" required min="1" />
           <div class="invalid-feedback">A quantidade deve ser maior que zero.</div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Sale } from '@/types/sale';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, profitClass } from '@/utils/format';
 import AppButton from '@/components/AppButton.vue';
 
 defineProps<{
@@ -47,7 +47,7 @@ function statusClass(status: Sale['status']): string {
                 <span :class="statusClass(sale.status)">{{ statusLabel(sale.status) }}</span>
               </td>
               <td class="text-end">{{ formatCurrency(sale.totalAmount) }}</td>
-              <td class="text-end" :class="sale.profit >= 0 ? 'text-success' : 'text-danger'">
+              <td class="text-end" :class="profitClass(sale.profit)">
                 {{ formatCurrency(sale.profit) }}
               </td>
               <td class="text-center">

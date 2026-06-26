@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AppModal from '@/components/AppModal.vue';
-import { formatCurrency } from '@/utils/format';
+import { formatCurrency, profitClass } from '@/utils/format';
 import type { Sale } from '@/types/sale';
 
 defineProps<{
@@ -40,7 +40,7 @@ defineExpose({ show, hide });
               <td class="text-center">{{ item.quantity }}</td>
               <td class="text-center">{{ formatCurrency(item.unitPrice) }}</td>
               <td class="text-center">{{ formatCurrency(item.totalAmount) }}</td>
-              <td class="text-center" :class="item.profit >= 0 ? 'text-success' : 'text-danger'">
+              <td class="text-center" :class="profitClass(item.profit)">
                 {{ formatCurrency(item.profit) }}
               </td>
             </tr>
@@ -48,7 +48,7 @@ defineExpose({ show, hide });
           <tfoot class="table-light fw-bold">
             <tr>
               <td colspan="6" class="text-center">Total</td>
-              <td class="text-center" :class="sale.profit >= 0 ? 'text-success' : 'text-danger'">
+              <td class="text-center" :class="profitClass(sale.profit)">
                 {{ formatCurrency(sale.profit) }}
               </td>
             </tr>

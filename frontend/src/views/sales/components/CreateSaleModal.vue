@@ -64,7 +64,7 @@ defineExpose({ show });
 </script>
 
 <template>
-  <AppModal ref="modal" title="Cadastrar Venda" size="lg" @hidden="resetForm">
+  <AppModal ref="modal" title="Cadastrar Venda" size="xl" @hidden="resetForm">
     <template #body>
       <form ref="formRef" novalidate class="needs-validation">
         <SaleFormFields v-model="formData" />
