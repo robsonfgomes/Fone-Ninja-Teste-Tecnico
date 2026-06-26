@@ -108,7 +108,7 @@ describe('SaleItemsModal', () => {
   it('applies text-danger to profit total when negative', () => {
     const negSale: Sale = {
       ...mockSale,
-      items: [{ ...mockSale.items[0], profit: -500 }],
+      items: [{ ...mockSale.items[0]!, profit: -500 }],
     };
     const wrapper = mount(SaleItemsModal, { props: { sale: negSale } });
     expect(wrapper.find('tfoot td:last-child').classes()).toContain('text-danger');
