@@ -27,6 +27,17 @@ class Product extends AbstractModel
         $this->update(['current_stock' => $this->current_stock - $quantity]);
     }
 
+    public function updateAverageCost(int $quantity, float $unitPrice): void
+    {
+        $currentStockValue = $this->current_stock * (float) ($this->average_cost ?? 0);
+        $incomingStockValue = $quantity * (float) $unitPrice;
+        $totalQuantity = $this->current_stock + $quantity;
+
+        $newAverageCost = round(($currentStockValue + $incomingStockValue) / $totalQuantity, 2);
+
+        $this->update(['average_cost' => $newAverageCost]);
+    }
+
     protected function casts(): array
     {
         return [

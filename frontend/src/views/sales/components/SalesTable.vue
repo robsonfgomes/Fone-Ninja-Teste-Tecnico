@@ -25,14 +25,16 @@ function statusClass(status: Sale['status']): string {
         <table class="table table-hover mb-0">
           <thead class="table-light">
             <tr>
+              <th class="text-center">#</th>
               <th>Cliente</th>
               <th class="text-center">Status</th>
-              <th class="text-end">Total</th>
+              <th class="text-end">Total da Venda</th>
               <th class="text-end">Lucro</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="sale in sales" :key="sale.id">
+            <tr v-for="(sale, index) in sales" :key="sale.id">
+              <td class="text-center">{{ (index + 1) }}</td>
               <td>{{ sale.customerName }}</td>
               <td class="text-center">
                 <span :class="statusClass(sale.status)">{{ statusLabel(sale.status) }}</span>

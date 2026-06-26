@@ -8,7 +8,7 @@ import { productsService } from '@/services/products.service';
 import { purchasesService } from '@/services/purchases.service';
 import { useToastStore } from '@/stores/toast.store';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/order';
+import type { ProductItemEditor } from '@/types/order';
 import type { PurchaseFormData } from '@/types/purchase';
 
 const emit = defineEmits<{ created: [] }>();
@@ -17,7 +17,7 @@ const toast = useToastStore();
 const modal = ref<InstanceType<typeof AppModal>>();
 const formRef = ref<HTMLFormElement>();
 const formData = ref<PurchaseFormData>({ supplierName: '' });
-const items = ref<ProductOrderItem[]>([]);
+const productItemsEditor = ref<ProductItemEditor[]>([]);
 const products = ref<Product[]>([]);
 const isCreating = ref(false);
 
@@ -25,7 +25,7 @@ async function show() {
   try {
     const response = await productsService.listAll();
     products.value = response.data;
-    items.value = [{ productId: '', quantity: 1, unitPrice: '' }];
+    productItemsEditor.value = [{ productId: '', quantity: '', unitPrice: '' }];
     modal.value!.show();
   } catch {
     toast.add('Erro ao carregar produtos.', 'danger');
@@ -40,10 +40,10 @@ async function handleSubmit() {
   try {
     await purchasesService.create({
       supplier: formData.value.supplierName,
-      products: items.value.map(i => ({
-        id: i.productId,
-        quantity: i.quantity,
-        unitPrice: Number(i.unitPrice),
+      products: productItemsEditor.value.map(item => ({
+        id: item.productId,
+        quantity: Number(item.quantity),
+        unitPrice: Number(item.unitPrice),
       })),
     });
 
@@ -59,7 +59,7 @@ async function handleSubmit() {
 
 function resetForm() {
   formData.value = { supplierName: '' };
-  items.value = [];
+  productItemsEditor.value = [];
   products.value = [];
   formRef.value?.classList.remove('was-validated');
 }
@@ -74,7 +74,7 @@ defineExpose({ show });
         <PurchaseFormFields v-model="formData" />
 
         <label class="form-label">Produtos</label>
-        <ProductItemsEditor v-model="items" :products="products" />
+        <ProductItemsEditor v-model="productItemsEditor" :products="products" />
       </form>
     </template>
 

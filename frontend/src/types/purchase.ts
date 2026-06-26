@@ -1,4 +1,4 @@
-import type { OrderItem } from '@/types/order';
+import type { OrderItemPayload } from '@/types/order';
 
 export interface PurchaseOrder {
   id: string;
@@ -10,7 +10,7 @@ export interface PurchaseOrder {
 
 export interface CreatePurchasePayload {
   supplier: string;
-  products: OrderItem[];
+  products: OrderItemPayload[];
 }
 
 export interface PurchaseFormData {

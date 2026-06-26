@@ -3,6 +3,7 @@
 namespace App\Dtos\PurchaseOrder;
 
 use App\Interfaces\DtoInterface;
+use App\Dtos\PurchaseOrder\PurchaseOrderItemDto;
 
 class CreatePurchaseOrderDto implements DtoInterface
 {

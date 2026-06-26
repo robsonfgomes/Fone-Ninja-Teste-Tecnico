@@ -22,6 +22,7 @@ class CreateSaleAction
 
             /** @var SaleItemDto $saleItemDto */
             foreach ($dto->items as $saleItemDto) {
+                /** @var Product $product */
                 $product = Product::findOrFail($saleItemDto->productId);
 
                 SaleItem::create([

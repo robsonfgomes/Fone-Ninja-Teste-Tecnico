@@ -1,23 +1,14 @@
 <?php
 
-namespace Tests\Unit\Actions\Product;
+namespace Tests\Unit\Models\Product;
 
-use App\Actions\Product\UpdateProductAverageCostAction;
 use App\Models\Product\Product;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class UpdateProductAverageCostActionTest extends TestCase
+class ProductAverageCostTest extends TestCase
 {
     use RefreshDatabase;
-
-    private UpdateProductAverageCostAction $action;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->action = new UpdateProductAverageCostAction();
-    }
 
     public function test_sets_average_cost_when_no_previous_cost(): void
     {
@@ -29,7 +20,7 @@ class UpdateProductAverageCostActionTest extends TestCase
         ]);
 
         // new_avg = (0 * 0 + 10 * 50) / (0 + 10) = 50.00
-        $this->action->execute($product, 10, '50.00');
+        $product->updateAverageCost(10, '50.00');
 
         $this->assertEquals('50.00', $product->fresh()->average_cost);
     }
@@ -44,7 +35,7 @@ class UpdateProductAverageCostActionTest extends TestCase
         ]);
 
         // new_avg = (10 * 50 + 20 * 30) / (10 + 20) = 1100 / 30 = 36.67
-        $this->action->execute($product, 20, '30.00');
+        $product->updateAverageCost(20, '30.00');
 
         $this->assertEquals('36.67', $product->fresh()->average_cost);
     }

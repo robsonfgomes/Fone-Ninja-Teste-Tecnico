@@ -17,14 +17,16 @@ defineProps<{
         <table class="table table-hover mb-0">
           <thead class="table-light">
             <tr>
+              <th class="text-center">#</th>
               <th>Nome</th>
-              <th class="text-end">Preço de Venda (Sugerido)</th>
+              <th class="text-end">Preço de Venda</th>
               <th class="text-end">Custo Médio</th>
               <th class="text-center">Estoque</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in products" :key="product.id">
+            <tr v-for="(product, index) in products" :key="product.id">
+              <td class="text-center">{{ (index + 1) }}</td>
               <td>{{ product.name }}</td>
               <td class="text-end">{{ formatCurrency(product.sellingPrice) }}</td>
               <td class="text-end">{{ formatCurrency(product.averageCost) }}</td>

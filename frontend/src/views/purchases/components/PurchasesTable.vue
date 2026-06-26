@@ -17,12 +17,14 @@ defineProps<{
         <table class="table table-hover mb-0">
           <thead class="table-light">
             <tr>
+              <th class="text-center">#</th>
               <th>Fornecedor</th>
-              <th class="text-end">Total</th>
+              <th class="text-end">Total da Compra</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="purchase in purchases" :key="purchase.id">
+            <tr v-for="(purchase, index) in purchases" :key="purchase.id">
+              <td class="text-center">{{ (index + 1) }}</td>
               <td>{{ purchase.supplierName }}</td>
               <td class="text-end">{{ formatCurrency(purchase.totalAmount) }}</td>
             </tr>

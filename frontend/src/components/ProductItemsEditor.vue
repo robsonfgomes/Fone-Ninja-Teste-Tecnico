@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { Product } from '@/types/product';
-import type { ProductOrderItem } from '@/types/order';
+import type { ProductItemEditor } from '@/types/order';
 
 const props = withDefaults(defineProps<{
   products: Product[];
   autoFillPrice?: boolean;
 }>(), { autoFillPrice: false });
 
-const items = defineModel<ProductOrderItem[]>({ required: true });
+const items = defineModel<ProductItemEditor[]>({ required: true });
 
 function addLine() {
-  items.value.push({ productId: '', quantity: 1, unitPrice: '' });
+  items.value.push({ productId: '', quantity: '', unitPrice: '' });
 }
 
 function removeLine(index: number) {
@@ -43,10 +43,10 @@ const allSelected = computed(
   <table v-if="items.length > 0" class="table table-bordered align-middle mb-3">
     <thead>
       <tr>
-        <th>Produto</th>
-        <th style="width: 130px">Quantidade</th>
-        <th style="width: 160px">Preço Unitário</th>
-        <th style="width: 56px"></th>
+        <th style="width: 50%;">Produto</th>
+        <th style="width: 20%;">Quantidade</th>
+        <th style="width: 20%;">Preço Unitário</th>
+        <th style="width: 10%;"></th>
       </tr>
     </thead>
     <tbody>
@@ -62,7 +62,7 @@ const allSelected = computed(
         </td>
         <td>
           <input type="number" class="form-control" v-model.number="item.quantity" required min="1" />
-          <div class="invalid-feedback">A quantidade deve ser pelo menos 1.</div>
+          <div class="invalid-feedback">A quantidade deve ser maior que zero.</div>
         </td>
         <td>
           <input type="number" class="form-control" v-model="item.unitPrice" required min="0.01" step="0.01" />

@@ -1,11 +1,11 @@
-export interface OrderItem {
+export interface OrderItemPayload {
   id: string;
   quantity: number;
   unitPrice: number;
 }
 
-export interface ProductOrderItem {
+export interface ProductItemEditor {
   productId: string;
-  quantity: number;
+  quantity: string;
   unitPrice: string;
 }
