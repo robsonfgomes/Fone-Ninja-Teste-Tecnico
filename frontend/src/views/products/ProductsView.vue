@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useProductsStore } from '@/stores/products.store';
+import { useProductsListing } from '@/composables/useProductsListing';
 import ProductsTable from './components/ProductsTable.vue';
 import CreateProductModal from './components/CreateProductModal.vue';
 import AppButton from '@/components/AppButton.vue';
 import AppPagination from '@/components/AppPagination.vue';
 
-const store = useProductsStore();
+const { products, meta, fetchProducts } = useProductsListing();
 const createModalRef = ref<InstanceType<typeof CreateProductModal>>();
 
-onMounted(() => store.fetchProducts());
+onMounted(() => fetchProducts());
 </script>
 
 <template>
@@ -21,12 +21,12 @@ onMounted(() => store.fetchProducts());
       </AppButton>
     </div>
 
-    <ProductsTable :products="store.products" />
+    <ProductsTable :products="products" />
 
-    <div v-if="store.meta" class="d-flex justify-content-center mt-3">
-      <AppPagination :meta="store.meta" @page-change="store.fetchProducts" />
+    <div v-if="meta" class="d-flex justify-content-center mt-3">
+      <AppPagination :meta="meta" @page-change="fetchProducts" />
     </div>
 
-    <CreateProductModal ref="createModalRef" />
+    <CreateProductModal ref="createModalRef" @created="fetchProducts" />
   </div>
 </template>
