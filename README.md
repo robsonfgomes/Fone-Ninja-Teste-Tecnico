@@ -1,124 +1,162 @@
 # 🧪 Desafio Técnico – Laravel + Vue
 
 Bem-vindo(a)! 👋  
-Este desafio tem como objetivo avaliar suas habilidades práticas em **Laravel (backend)** e **Vue (frontend)**.  
+Este desafio tem como objetivo avaliar suas habilidades práticas em **Laravel (backend)** e **Vue (frontend)**.
+
+---
+
+## Passos para iniciar a aplicação
+
+### Pré-requisitos
+
+- [Docker](https://docs.docker.com/get-docker/) e [Docker Compose](https://docs.docker.com/compose/) instalados
+
+### Primeira execução
+
+1. Na raíz do projeto, suba os serviços:
+    ```bash
+    docker compose up -d
+    ```
+2. Aguarde os containers inicializarem, depois rode as migrations:
+    ```bash
+    docker exec fone_ninja_erp_api php artisan migrate --seed
+    ```
+
+### Execuções subsequentes
+
+```bash
+docker compose up -d
+```
+
+### Acessos
+
+| Serviço        | URL                                        |
+| -------------- | ------------------------------------------ |
+| Frontend (Vue) | http://localhost:5173                      |
+| Backend (API)  | http://localhost:8084/api                  |
+| MySQL          | `localhost:3319` — banco: `fone_ninja_erp` |
 
 ---
 
 ## 📌 Contexto
+
 Você foi contratado para implementar funcionalidades de um **ERP de estoque**.  
 O sistema precisa permitir **cadastrar produtos**, **registrar compras e vendas**, controlar **estoque** e calcular **lucro**.
 
 ---
 
 ## 🎯 Objetivos do desafio
-- Criar **cadastro de produtos**.  
-- Implementar **compra de produtos** (entrada de estoque e atualização do custo médio).  
-- Implementar **venda de produtos** (saída de estoque, cálculo de receita e lucro).  
+
+- Criar **cadastro de produtos**.
+- Implementar **compra de produtos** (entrada de estoque e atualização do custo médio).
+- Implementar **venda de produtos** (saída de estoque, cálculo de receita e lucro).
 - Criar **telas em Vue** para gerenciar produtos, compras e vendas.
 - Criar um ambiente dockerizado com backend, frontend e banco, contendo dockerfile para o front e back e docker composer com os dois serviços mais banco de dados mysql.
 - o projeto deve ser descoplado oh seja a estrutura deve ser de um projeto backend sendo a api e o frontend desacoplado do back.
   /projeto
-│
-├── docker-compose.yml
-│
-├── frontend/
-│   └── Dockerfile
-│
-└── backend/
-    └── Dockerfile
+  │
+  ├── docker-compose.yml
+  │
+  ├── frontend/
+  │ └── Dockerfile
+  │
+  └── backend/
+  └── Dockerfile
 
 ---
 
 ## 🛠️ Backend – Laravel
+
 Implemente os seguintes endpoints:
 
 ### Produtos
+
 - **Cadastrar produto**  
   `POST /api/produtos`  
-  Campos:  
-  - `nome` (obrigatório, mínimo 3 caracteres)  
-  - `preco_venda` (valor sugerido de venda, deve ser positivo)  
-  - `estoque_inicial = 0`  
+  Campos:
+    - `nome` (obrigatório, mínimo 3 caracteres)
+    - `preco_venda` (valor sugerido de venda, deve ser positivo)
+    - `estoque_inicial = 0`
 
 - **Listar produtos**  
   `GET /api/produtos`  
-  Retornar: id, nome, custo_medio, preco_venda e estoque atual.  
+  Retornar: id, nome, custo_medio, preco_venda e estoque atual.
 
 ---
 
 ### Compras
+
 - **Registrar compra**  
   `POST /api/compras`  
   Payload:
-  ```json
-  {
-    "fornecedor": "Fornecedor X",
-    "produtos": [
-      { "id": 1, "quantidade": 50, "preco_unitario": 20 },
-      { "id": 2, "quantidade": 30, "preco_unitario": 10 }
-    ]
-  }
-  ```
+    ```json
+    {
+        "fornecedor": "Fornecedor X",
+        "produtos": [
+            { "id": 1, "quantidade": 50, "preco_unitario": 20 },
+            { "id": 2, "quantidade": 30, "preco_unitario": 10 }
+        ]
+    }
+    ```
 
 ### Regras:
 
-  - Atualizar estoque (entrada).
+- Atualizar estoque (entrada).
 
-  - Atualizar custo médio do produto
+- Atualizar custo médio do produto
 
 💰 Vendas
 
 Registrar venda
 POST /api/vendas
 Payload:
-  ```json
-  {
+
+```json
+{
     "cliente": "Fulano da Silva",
     "produtos": [
-      { "id": 1, "quantidade": 2, "preco_unitario": 50 },
-      { "id": 3, "quantidade": 1, "preco_unitario": 100 }
+        { "id": 1, "quantidade": 2, "preco_unitario": 50 },
+        { "id": 3, "quantidade": 1, "preco_unitario": 100 }
     ]
-  }
-  ```
+}
+```
 
 Regras:
-  
-  - Validar estoque suficiente.
-  
-  - Baixar estoque (saída).
-  
-  - Calcular lucro da venda
 
+- Validar estoque suficiente.
 
-  - Retornar no JSON o total da venda e o lucro calculado.
+- Baixar estoque (saída).
 
-  - Cancelar venda (opcional)
+- Calcular lucro da venda
 
-  - Deve reverter o estoque.
+- Retornar no JSON o total da venda e o lucro calculado.
+
+- Cancelar venda (opcional)
+
+- Deve reverter o estoque.
 
 💻 Frontend – Vue
 
 Implemente as seguintes telas:
 
-  - Cadastro de produto
+- Cadastro de produto
 
-  - Formulário com nome e preço de venda sugerido.
+- Formulário com nome e preço de venda sugerido.
 
-  - Mostrar lista de produtos com custo médio, preço e estoque.
+- Mostrar lista de produtos com custo médio, preço e estoque.
 
-  - Cadastro de compra
+- Cadastro de compra
 
-  - Formulário para adicionar produtos, quantidades e preço unitário.
+- Formulário para adicionar produtos, quantidades e preço unitário.
 
-  - Atualizar estoque e custo médio.
+- Atualizar estoque e custo médio.
 
-  - Cadastro de venda
+- Cadastro de venda
 
-  - Formulário para selecionar produtos e quantidades.
+- Formulário para selecionar produtos e quantidades.
 
-  - Mostrar total da venda e lucro estimado.
+- Mostrar total da venda e lucro estimado.
 
-  - Exibir mensagens de sucesso ou erro (ex: “Estoque insuficiente”).
+- Exibir mensagens de sucesso ou erro (ex: “Estoque insuficiente”).
 
 ⚡ Diferencial: Tela para listar todas as vendas e compras.
