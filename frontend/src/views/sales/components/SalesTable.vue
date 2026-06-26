@@ -35,7 +35,7 @@ function statusClass(status: Sale['status']): string {
               <th>Cliente</th>
               <th class="text-center">Status</th>
               <th class="text-end">Total da Venda</th>
-              <th class="text-end">Lucro/Prejuizo</th>
+              <th class="text-end">Lucro/Prejuízo</th>
               <th class="text-center">Ações</th>
             </tr>
           </thead>
@@ -54,12 +54,8 @@ function statusClass(status: Sale['status']): string {
                 <AppButton variant="info" size="sm" class="me-1" @click="emit('view-items', sale)">
                   <i class="bi bi-eye"></i>
                 </AppButton>
-                <AppButton
-                  v-if="sale.status === 'Active'"
-                  variant="danger"
-                  size="sm"
-                  @click="emit('cancel-sale', sale)"
-                >
+                <AppButton :disabled="sale.status === 'Cancelled'" variant="danger" size="sm"
+                  @click="emit('cancel-sale', sale)">
                   <i class="bi bi-ban"></i>
                 </AppButton>
               </td>
