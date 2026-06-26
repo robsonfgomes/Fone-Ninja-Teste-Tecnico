@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import type { PurchaseOrder } from '@/types/purchase';
 import { formatCurrency } from '@/utils/format';
+import AppButton from '@/components/AppButton.vue';
 
 defineProps<{
   purchases: PurchaseOrder[];
+}>();
+
+const emit = defineEmits<{
+  'view-items': [purchase: PurchaseOrder];
 }>();
 </script>
 
@@ -20,6 +25,7 @@ defineProps<{
               <th class="text-center">#</th>
               <th>Fornecedor</th>
               <th class="text-end">Total da Compra</th>
+              <th class="text-center">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -27,6 +33,11 @@ defineProps<{
               <td class="text-center">{{ (index + 1) }}</td>
               <td>{{ purchase.supplierName }}</td>
               <td class="text-end">{{ formatCurrency(purchase.totalAmount) }}</td>
+              <td class="text-center">
+                <AppButton variant="info" size="sm" @click="emit('view-items', purchase)">
+                  <i class="bi bi-eye"></i>
+                </AppButton>
+              </td>
             </tr>
           </tbody>
         </table>
