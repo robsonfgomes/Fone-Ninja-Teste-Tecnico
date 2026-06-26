@@ -11,6 +11,7 @@ const activeSale: Sale = {
   profit: 100,
   createdAt: '26/06/2026 10:00:00',
   updatedAt: '26/06/2026 10:00:00',
+  items: [],
 };
 
 const cancelledSale: Sale = {
@@ -21,6 +22,7 @@ const cancelledSale: Sale = {
   profit: -50,
   createdAt: '26/06/2026 09:00:00',
   updatedAt: '26/06/2026 09:00:00',
+  items: [],
 };
 
 describe('SalesTable', () => {
@@ -35,13 +37,25 @@ describe('SalesTable', () => {
   });
 
   it('emits cancel-sale with the sale when the cancel button is clicked', async () => {
-    const wrapper = mount(SalesTable, {
-      props: { sales: [activeSale] },
-    });
-
+    const wrapper = mount(SalesTable, { props: { sales: [activeSale] } });
     await wrapper.find('button.btn-danger').trigger('click');
-
     expect(wrapper.emitted('cancel-sale')).toBeTruthy();
     expect(wrapper.emitted('cancel-sale')![0]).toEqual([activeSale]);
+  });
+
+  it('shows the view-items button on every row regardless of status', () => {
+    const wrapper = mount(SalesTable, {
+      props: { sales: [activeSale, cancelledSale] },
+    });
+    const rows = wrapper.findAll('tbody tr');
+    expect(rows[0].find('button.btn-info').exists()).toBe(true);
+    expect(rows[1].find('button.btn-info').exists()).toBe(true);
+  });
+
+  it('emits view-items with the sale when the view button is clicked', async () => {
+    const wrapper = mount(SalesTable, { props: { sales: [activeSale] } });
+    await wrapper.find('button.btn-info').trigger('click');
+    expect(wrapper.emitted('view-items')).toBeTruthy();
+    expect(wrapper.emitted('view-items')![0]).toEqual([activeSale]);
   });
 });

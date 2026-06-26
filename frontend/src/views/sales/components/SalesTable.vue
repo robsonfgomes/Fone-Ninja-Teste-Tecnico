@@ -9,6 +9,7 @@ defineProps<{
 
 const emit = defineEmits<{
   'cancel-sale': [sale: Sale];
+  'view-items': [sale: Sale];
 }>();
 
 function statusLabel(status: Sale['status']): string {
@@ -50,8 +51,15 @@ function statusClass(status: Sale['status']): string {
                 {{ formatCurrency(sale.profit) }}
               </td>
               <td class="text-center">
-                <AppButton v-if="sale.status === 'Active'" variant="danger" size="sm"
-                  @click="emit('cancel-sale', sale)">
+                <AppButton variant="info" size="sm" class="me-1" @click="emit('view-items', sale)">
+                  <i class="bi bi-eye"></i>
+                </AppButton>
+                <AppButton
+                  v-if="sale.status === 'Active'"
+                  variant="danger"
+                  size="sm"
+                  @click="emit('cancel-sale', sale)"
+                >
                   <i class="bi bi-ban"></i>
                 </AppButton>
               </td>
