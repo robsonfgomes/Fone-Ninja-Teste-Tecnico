@@ -1,4 +1,4 @@
-import type { OrderItem } from '@/types/order';
+import type { OrderItemPayload } from '@/types/order';
 
 export type SaleStatus = 'Active' | 'Cancelled';
 
@@ -14,5 +14,9 @@ export interface Sale {
 
 export interface CreateSalePayload {
   customer: string;
-  products: OrderItem[];
+  products: OrderItemPayload[];
+}
+
+export interface SaleFormData {
+  customerName: string;
 }
