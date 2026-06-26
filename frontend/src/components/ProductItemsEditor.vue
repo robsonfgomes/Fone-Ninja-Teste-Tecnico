@@ -3,10 +3,9 @@ import { computed } from 'vue';
 import type { Product } from '@/types/product';
 import type { ProductItemEditor } from '@/types/order';
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   products: Product[];
-  autoFillPrice?: boolean;
-}>(), { autoFillPrice: false });
+}>();
 
 const items = defineModel<ProductItemEditor[]>({ required: true });
 
@@ -24,14 +23,6 @@ function availableProductsFor(index: number): Product[] {
     .map(item => item.productId)
     .filter(Boolean);
   return props.products.filter(p => !selectedIds.includes(p.id));
-}
-
-function onProductChange(index: number) {
-  if (!props.autoFillPrice) return;
-  const product = props.products.find(p => p.id === items.value[index].productId);
-  if (product) {
-    items.value[index].unitPrice = String(product.sellingPrice);
-  }
 }
 
 const allSelected = computed(
@@ -52,7 +43,7 @@ const allSelected = computed(
     <tbody>
       <tr v-for="(item, index) in items" :key="index">
         <td>
-          <select class="form-select" v-model="item.productId" required @change="onProductChange(index)">
+          <select class="form-select" v-model="item.productId" required>
             <option value="" disabled>Selecione...</option>
             <option v-for="product in availableProductsFor(index)" :key="product.id" :value="product.id">
               {{ product.name }}
