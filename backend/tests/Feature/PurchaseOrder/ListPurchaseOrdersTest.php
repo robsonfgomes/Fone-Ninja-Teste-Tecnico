@@ -87,7 +87,7 @@ class ListPurchaseOrdersTest extends TestCase
         $this->createOrderWithItem('Fornecedor B', 50.00, 1);
         $this->createOrderWithItem('Fornecedor C', 50.00, 1);
 
-        $response = $this->getJson('/api/compras?per_page=2');
+        $response = $this->getJson('/api/compras?perPage=2');
 
         $response->assertStatus(200)
             ->assertJsonCount(2, 'data')
@@ -100,7 +100,7 @@ class ListPurchaseOrdersTest extends TestCase
         $this->createOrderWithItem('Fornecedor A', 50.00, 1);
         $this->createOrderWithItem('Fornecedor B', 50.00, 1);
 
-        $response = $this->getJson('/api/compras?per_page=1&page=2');
+        $response = $this->getJson('/api/compras?perPage=1&page=2');
 
         $response->assertStatus(200)
             ->assertJsonCount(1, 'data')
@@ -117,9 +117,9 @@ class ListPurchaseOrdersTest extends TestCase
 
     public function test_returns_422_for_invalid_per_page(): void
     {
-        $response = $this->getJson('/api/compras?per_page=101');
+        $response = $this->getJson('/api/compras?perPage=101');
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['per_page']);
+            ->assertJsonValidationErrors(['perPage']);
     }
 }

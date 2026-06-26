@@ -208,7 +208,7 @@ class CreateSaleTest extends TestCase
 
         $response->assertStatus(422)
             ->assertJsonFragment([
-                'products.0.quantity' => ['Produto "Fone X": estoque insuficiente. Disponível: 2.'],
+                'products.0.quantity' => ['"Fone X": apenas 2 em estoque.'],
             ]);
     }
 

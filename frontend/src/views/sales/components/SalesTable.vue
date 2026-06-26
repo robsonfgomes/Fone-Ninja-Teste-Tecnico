@@ -33,7 +33,7 @@ function statusClass(status: Sale['status']): string {
             <tr>
               <th class="text-center">#</th>
               <th>Cliente</th>
-              <th class="text-center">Status</th>
+              <th class="text-start">Status</th>
               <th class="text-end">Total da Venda</th>
               <th class="text-end">Lucro/Prejuízo</th>
               <th class="text-center">Ações</th>
@@ -43,7 +43,7 @@ function statusClass(status: Sale['status']): string {
             <tr v-for="(sale, index) in sales" :key="sale.id">
               <td class="text-center">{{ (index + 1) }}</td>
               <td>{{ sale.customerName }}</td>
-              <td class="text-center">
+              <td class="text-start">
                 <span :class="statusClass(sale.status)">{{ statusLabel(sale.status) }}</span>
               </td>
               <td class="text-end">{{ formatCurrency(sale.totalAmount) }}</td>

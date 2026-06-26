@@ -21,7 +21,7 @@ class CreatePurchaseOrderTest extends TestCase
         $response = $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => $product->id, 'quantity' => 50, 'unit_price' => 20.00],
+                ['id' => $product->id, 'quantity' => 50, 'unitPrice' => 20.00],
             ],
         ]);
 
@@ -43,7 +43,7 @@ class CreatePurchaseOrderTest extends TestCase
         $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => $product->id, 'quantity' => 50, 'unit_price' => 20.00],
+                ['id' => $product->id, 'quantity' => 50, 'unitPrice' => 20.00],
             ],
         ]);
 
@@ -63,7 +63,7 @@ class CreatePurchaseOrderTest extends TestCase
         $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => $product->id, 'quantity' => 20, 'unit_price' => 30.00],
+                ['id' => $product->id, 'quantity' => 20, 'unitPrice' => 30.00],
             ],
         ]);
 
@@ -78,8 +78,8 @@ class CreatePurchaseOrderTest extends TestCase
         $response = $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => $product1->id, 'quantity' => 50, 'unit_price' => 20.00],
-                ['id' => $product2->id, 'quantity' => 30, 'unit_price' => 10.00],
+                ['id' => $product1->id, 'quantity' => 50, 'unitPrice' => 20.00],
+                ['id' => $product2->id, 'quantity' => 30, 'unitPrice' => 10.00],
             ],
         ]);
 
@@ -98,7 +98,7 @@ class CreatePurchaseOrderTest extends TestCase
 
         $response = $this->postJson('/api/compras', [
             'products' => [
-                ['id' => $product->id, 'quantity' => 10, 'unit_price' => 20.00],
+                ['id' => $product->id, 'quantity' => 10, 'unitPrice' => 20.00],
             ],
         ]);
 
@@ -111,7 +111,7 @@ class CreatePurchaseOrderTest extends TestCase
         $response = $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => '00000000-0000-0000-0000-000000000000', 'quantity' => 10, 'unit_price' => 20.00],
+                ['id' => '00000000-0000-0000-0000-000000000000', 'quantity' => 10, 'unitPrice' => 20.00],
             ],
         ]);
 
@@ -141,8 +141,8 @@ class CreatePurchaseOrderTest extends TestCase
         $response = $this->postJson('/api/compras', [
             'supplier' => 'Fornecedor X',
             'products' => [
-                ['id' => $product->id, 'quantity' => 10, 'unit_price' => 20.00],
-                ['id' => $product->id, 'quantity' => 5,  'unit_price' => 25.00],
+                ['id' => $product->id, 'quantity' => 10, 'unitPrice' => 20.00],
+                ['id' => $product->id, 'quantity' => 5,  'unitPrice' => 25.00],
             ],
         ]);
 

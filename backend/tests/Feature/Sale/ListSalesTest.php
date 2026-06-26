@@ -102,7 +102,7 @@ class ListSalesTest extends TestCase
         $this->createSaleWithItem('Cliente B', 50.00, 1, 10.00);
         $this->createSaleWithItem('Cliente C', 50.00, 1, 10.00);
 
-        $response = $this->getJson('/api/vendas?per_page=2');
+        $response = $this->getJson('/api/vendas?perPage=2');
 
         $response->assertStatus(200)
             ->assertJsonCount(2, 'data')
@@ -115,7 +115,7 @@ class ListSalesTest extends TestCase
         $this->createSaleWithItem('Cliente A', 50.00, 1, 10.00);
         $this->createSaleWithItem('Cliente B', 50.00, 1, 10.00);
 
-        $response = $this->getJson('/api/vendas?per_page=1&page=2');
+        $response = $this->getJson('/api/vendas?perPage=1&page=2');
 
         $response->assertStatus(200)
             ->assertJsonCount(1, 'data')
@@ -132,10 +132,10 @@ class ListSalesTest extends TestCase
 
     public function test_returns_422_for_invalid_per_page(): void
     {
-        $response = $this->getJson('/api/vendas?per_page=101');
+        $response = $this->getJson('/api/vendas?perPage=101');
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['per_page']);
+            ->assertJsonValidationErrors(['perPage']);
     }
 
     public function test_profit_is_zero_when_average_cost_is_null(): void
