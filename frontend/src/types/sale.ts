@@ -19,6 +19,7 @@ export interface SaleItem {
   quantity: number;
   unitPrice: number;
   totalAmount: number;
+  profit: number;
   createdAt: string;
   updatedAt: string;
   product: Product;

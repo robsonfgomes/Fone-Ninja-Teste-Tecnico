@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
  * @property int $quantity
  * @property string $unit_price
  * @property float $totalAmount
+ * @property float $profit
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property-read Product $product
@@ -30,7 +31,17 @@ class SaleItem extends AbstractModel
     protected function totalAmount(): Attribute
     {
         return Attribute::get(
-            fn() => round($this->quantity * (float) $this->unit_price, 2)
+            fn() => round((float) $this->unit_price * $this->quantity, 2)
+        );
+    }
+
+    protected function profit(): Attribute
+    {
+        return Attribute::get(
+            fn() => round(
+                ((float) $this->unit_price - (float) ($this->product?->average_cost ?? 0)) * $this->quantity,
+                2
+            )
         );
     }
 

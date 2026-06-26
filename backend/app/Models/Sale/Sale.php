@@ -28,24 +28,14 @@ class Sale extends AbstractModel
     protected function totalAmount(): Attribute
     {
         return Attribute::get(
-            fn() => round(
-                $this->items->sum(
-                    fn($item) => (float) $item->unit_price * $item->quantity
-                ),
-                2
-            )
+            fn() => round($this->items->sum(fn($item) => $item->totalAmount), 2)
         );
     }
 
     protected function profit(): Attribute
     {
         return Attribute::get(
-            fn() => round(
-                $this->items->sum(
-                    fn($item) => ((float) $item->unit_price - (float) ($item->product?->average_cost ?? 0)) * $item->quantity
-                ),
-                2
-            )
+            fn() => round($this->items->sum(fn($item) => $item->profit), 2)
         );
     }
 

@@ -25,12 +25,7 @@ class PurchaseOrder extends AbstractModel
     protected function totalAmount(): Attribute
     {
         return Attribute::get(
-            fn() => round(
-                $this->items->sum(
-                    fn($item) => $item->quantity * (float) $item->unit_price
-                ),
-                2
-            )
+            fn() => round($this->items->sum(fn($item) => $item->totalAmount), 2)
         );
     }
 }

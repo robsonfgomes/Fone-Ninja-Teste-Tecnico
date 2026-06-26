@@ -12,7 +12,7 @@ class FilterPurchaseOrdersAction
     public function execute(FilterPurchaseOrdersDto $dto): LengthAwarePaginator|Collection
     {
         $builder = PurchaseOrder::query()
-            ->with('items')
+            ->with('items.product')
             ->orderByDesc('created_at');
 
         return $dto->isToPaginate
